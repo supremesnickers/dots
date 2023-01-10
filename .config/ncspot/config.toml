@@ -1,0 +1,24 @@
+use_nerdfont = true
+gapless = true
+notify = false
+
+[theme]
+# background = "black"
+primary = "white"
+secondary = "#484848"
+title = "green"
+playing = "green"
+playing_bg = "black"
+highlight = "white"
+highlight_bg = "#484848"
+error = "light white"
+error_bg = "red"
+statusbar = "black"
+statusbar_progress = "green"
+statusbar_bg = "green"
+cmdline = "light white"
+cmdline_bg = "black"
+
+[keybindings]
+"Ctrl+d" = "move down 5"
+"Ctrl+u" = "move up 5"

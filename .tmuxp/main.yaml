@@ -1,0 +1,9 @@
+session_name: main
+windows:
+  - window_name: files
+    panes:
+      - shell_command: ranger
+  - window_name: dotfiles
+    panes:
+      - shell_command: cd ~/dotfiles/ && clear
+  - focus: 'true'

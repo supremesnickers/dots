@@ -1,0 +1,40 @@
+# format = """
+# $directory [YEET](bold yellow) [>](bold green) 
+# """
+
+format = """
+$python$directory[:](bold red) 
+"""
+
+add_newline = false
+[package]
+disabled = true
+
+[character]                            # The name of the module we are configuring is "character"
+success_symbol = "[YEET](bold yellow)"     # The "success_symbol" segment is being set to "?" with the color "bold green"
+
+[custom]
+
+[custom.tab]
+description = "The current tab in the tab terminal multiplexer"
+command = "tab --starship"
+when = "tab --starship"
+shell = ["sh"]
+format = "[$output]($style) "
+style = "bold blue"
+
+[directory]
+# "truncation_symbol" = "..."
+"truncation_length" = 2
+"truncate_to_repo" = true
+"style" = "blue"
+
+[username]
+style_user = "white bold"
+style_root = "black bold"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+[python]
+format = '(\($virtualenv\))($style) '
