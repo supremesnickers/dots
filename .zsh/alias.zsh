@@ -12,7 +12,9 @@ alias lg='lazygit'
 alias te='toolbox enter'
 alias open='xdg-open'
 alias rpn='java -jar ~/Downloads/rpncalc.jar'
-alias dotfiles='git --git-dir=/home/hoang/.dotfiles --work-tree=$HOME'
+alias dotfiles="git --git-dir=/home/hoang/.dotfiles --work-tree=$HOME"
+alias dtig="GIT_DIR=$HOME/.dotfiles GIT_WORK_TREE=$HOME tig"
+alias dlg='lg -g .dotfiles -w ~/'
 
 # Fedora Laptop
 alias charge_limit='sudo tlp setcharge 0 1 BAT1'

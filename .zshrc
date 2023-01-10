@@ -41,10 +41,8 @@ if [ $(uname) = "Linux" ]; then
     # source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
-if [ -d ~/dotfiles ]; then
-    source ~/dotfiles/zsh/.zsh/alias.zsh
-    source ~/dotfiles/zsh/.zsh/functions.zsh
-fi
+source ~/.zsh/alias.zsh
+source ~/.zsh/functions.zsh
 
 # export LC_CTYPE=en_US.UTF-8
 # export LC_ALL=en_US.UTF-8
