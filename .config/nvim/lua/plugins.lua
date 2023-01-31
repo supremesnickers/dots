@@ -53,10 +53,16 @@ return {
     end
   },
 
+  {
+          "chrisgrieser/nvim-recorder",
+          config = function() require("recorder").setup() end,
+  },
+
   -- Git related plugins
   "tpope/vim-fugitive",
   "tpope/vim-rhubarb",
   "lewis6991/gitsigns.nvim",
+  "mtikekar/vim-bsv",
 
   -- Themes
   "chriskempson/base16-vim",

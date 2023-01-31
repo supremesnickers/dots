@@ -77,6 +77,14 @@ require('lualine').setup {
     component_separators = '|',
     section_separators = '',
   },
+  sections = {
+    lualine_y = {
+	    { require("recorder").displaySlots },
+    },
+    lualine_z = {
+      { require("recorder").recordingStatus },
+    },
+  },
   inactive_sections = {
     lualine_x = { 'encoding', 'fileformat' },
   }
