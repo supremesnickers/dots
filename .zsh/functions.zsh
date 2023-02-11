@@ -8,8 +8,10 @@ fe() {
 }
 
 dote() {
+  pushd ~ &>/dev/null
   IFS=$'\n' files=($(git --git-dir=/home/hoang/.dotfiles --work-tree=$HOME ls-files | fzf-tmux -h --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  popd &>/dev/null
 }
 
 ftpane() {

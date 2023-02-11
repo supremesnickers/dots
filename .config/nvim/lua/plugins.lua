@@ -68,8 +68,57 @@ return {
   "chriskempson/base16-vim",
   -- "navarasu/onedark.nvim" -- Theme inspired by Atom
   "kaicataldo/material.vim",
-  { "catppuccin/nvim", name = "catppuccin" },
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    config = function()
+	    require("catppuccin").setup {
+		    flavour = "mocha", -- latte, frappe, macchiato, mocha
+		    term_colors = true,
+		    transparent_background = false,
+		    no_italic = false,
+		    no_bold = false,
+		    styles = {
+			    comments = {},
+			    conditionals = {},
+			    loops = {},
+			    functions = {},
+			    keywords = {},
+			    strings = {},
+			    variables = {},
+			    numbers = {},
+			    booleans = {},
+			    properties = {},
+			    types = {},
+		    },
+		    color_overrides = {
+			    mocha = {
+				    base = "#171516",
+				    mantle = "#282833",
+				    crust = "#282833",
+			    },
+		    },
+		    highlight_overrides = {
+			    mocha = function(C)
+				    return {
+					    TabLineSel = { bg = C.pink, fg = C.base },
+					    CmpBorder = { fg = C.surface2 },
+					    Pmenu = { bg = C.none },
+					    TelescopeBorder = { link = "FloatBorder" },
+				    }
+			    end,
+		    },
+	    }
+
+	    vim.cmd.colorscheme "catppuccin"
+    end,
+  },
   "RRethy/nvim-base16",
+
+  {
+    "windwp/nvim-autopairs",
+      config = function() require("nvim-autopairs").setup {} end
+  },
 
   {
     "nvim-lualine/lualine.nvim",

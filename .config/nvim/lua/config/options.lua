@@ -36,11 +36,6 @@ vim.o.cursorline = true
 -- Set colorscheme
 vim.o.termguicolors = true
 
-vim.cmd.colorscheme "catppuccin-mocha"
-vim.o.background = 'dark'
-vim.cmd [[highlight Normal ctermbg=NONE guibg=NONE]]
-vim.cmd [[highlight Normal ctermbg=NONE]]
-
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
