@@ -1,0 +1,4 @@
+inherits = "autumn_night"
+
+[palette]
+my_gray0 = "#161617"

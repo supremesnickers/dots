@@ -1,0 +1,33 @@
+theme = "catppuccin_macchiato_modified"
+
+[editor]
+true-color = true
+cursorline = true
+color-modes = true
+bufferline = "multiple"
+
+[editor.statusline]
+mode.normal = "NORMAL"
+mode.insert = "INSERT"
+mode.select = "SELECT"
+
+[editor.lsp]
+display-messages = true
+
+[editor.cursor-shape]
+insert = "bar"
+# normal = "bar"
+# select = "underline"
+
+[editor.file-picker]
+hidden = false
+
+[editor.indent-guides]
+render = false
+
+[keys.select]
+p = "replace_selections_with_clipboard" # No life without this   
+
+[keys.normal]
+"{" = ["goto_prev_paragraph", "collapse_selection"]
+"}" = ["goto_next_paragraph", "collapse_selection"]

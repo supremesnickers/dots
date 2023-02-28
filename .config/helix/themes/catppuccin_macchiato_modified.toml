@@ -1,0 +1,7 @@
+inherits = "catppuccin_macchiato"
+
+[palette]
+base = "#171516"
+surface0 = "#1b1b1d"
+mantle = "#1b1b1d"
+cursorline = "#1b1b1d"
