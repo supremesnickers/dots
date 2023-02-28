@@ -10,7 +10,7 @@ window:
   startup_mode: Windowed
   gtk_theme_variant: dark
   decorations: Full
-  background_opacity: 0.5
+  background_opacity: 1.0
   dynamic_title: true
 
 scrolling:
@@ -20,129 +20,21 @@ scrolling:
 # Font Customization
 font:
 
-  # normal:
-  #   family: FiraCode Nerd Font Mono
-  #   style: Medium
-  # bold:
-  #   family: FiraCode Nerd Font Mono
-  #   style: Bold
-  # italic:
-  #   family: FiraCode Nerd Font Mono
-  #   style: Medium
-  # offset:
-  #   x: 0
-  #   y: 2
-  # size: 10
-
-  # normal:
-  #   family: Iosevka Nerd Font Mono
-  #   style: Bold
-  # bold:
-  #   family: Iosevka Nerd Font Mono
-  #   style: Bold
-  # italic:
-  #   family: Iosevka Nerd Font Mono
-  #   style: Medium
-  # offset:
-  #   x: 1
-  #   y: 2
-  # size: 11
-
-  # normal:
-  #   family: Ubuntu Mono
-  #   style: Regular
-  # bold:
-  #   family: Ubuntu Mono
-  #   style: Bold
-  # italic:
-  #   family: Ubuntu Mono
-  #   style: Medium
-  # offset:
-  #   x: 0
-  #   y: 0
-  # size: 13
-
-  # normal:
-  #   family: IBM Plex Mono
-  #   style: Regular
-  # bold:
-  #   family: IBM Plex Mono
-  #   style: Bold
-  # italic:
-  #   family: IBM Plex Mono
-  #   style: Italic
-  # offset:
-  #   x: 0
-  #   y: 0
-  # size: 11
-
-  # # JetBrainsMono
-  # normal:
-  #   family: JetBrainsMono Nerd Font
-  #   style: Medium
-  # bold:
-  #   family: JetBrainsMono Nerd Font
-  #   style: Bold
-  # italic:
-  #   family: JetBrainsMono Nerd Font
-  #   style: Medium Italic
-  # offset:
-  #   x: 0
-  #   y: 0
-  # size: 14
-  
-  # # Victor Mono
-  # normal:
-  #   family: Victor Mono
-  #   style: Medium
-  # bold:
-  #   family: Victor Mono
-  #   style: Bold
-  # italic:
-  #   family: Victor Mono
-  #   style: Medium Italic
-  # offset:
-  #   x: 1
-  #   y: 0
-  # size: 11
-
-  # JetBrainsMono
-  # normal:
-  #   family: BlexMono Nerd Font
-  #   style: Medium
-  # bold:
-  #   family: BlexMono Nerd Font
-  #   style: Bold
-  # italic:
-  #   family: BlexMono Nerd Font
-  #   style: Medium Italic
-  # offset:
-  #   x: 0
-  #   y: 1
-  # size: 11
-  
   # JetBrainsMono
   normal:
-    family: CaskaydiaCove Nerd Font
+    family: JetBrainsMono Nerd Font Mono
     style: Regular
   bold:
-    family: CaskaydiaCove Nerd Font
+    family: JetBrainsMono Nerd Font Mono
     style: Bold
   italic:
-    family: CaskaydiaCove Nerd Font
+    family: JetBrainsMono Nerd Font Mono
     style: Medium Italic
   offset:
     x: 0
-    y: 1
-  size: 11
-
-  glyph_offset:
-    x: 0
     y: 0
-  use_thin_strokes: false
-  debug:
-    persistent_logging: false
-
+  size: 10
+  
 draw_bold_text_with_bright_colors: true
 
 # # Color Settings (Gruvbox)
@@ -230,7 +122,7 @@ draw_bold_text_with_bright_colors: true
 colors:
    # Default colors
    primary:
-     background: '#181818'
+     background: '#121212'
      foreground: '#D8DEE9'
    # Normal colors
    normal:
@@ -306,6 +198,8 @@ key_bindings:
   - { key: C,        mods: Control|Shift, action: Copy             }
   - { key: P,        mods: Super,         action: ScrollLineUp   }
   - { key: N,        mods: Super,         action: ScrollLineDown }
+  - { key: F11,                           action: ToggleFullscreen }
+
 
 #   # (macOS)
 #   - { key: Key0,   mods: Command, action: ResetFontSize                      }
