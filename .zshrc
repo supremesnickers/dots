@@ -81,7 +81,7 @@ if [ $(uname) != "Darwin" ]; then
     # export EMACS="/usr/bin/flatpak run org.gnu.emacs"
 fi
 
-path+=("$HOME/.local/bin/")
+path+=("$HOME/.local/bin")
 path+=("$HOME/.node/bin")
 path+=("$HOME/.cargo/bin")
 path+=("$HOME/scripts")
@@ -150,6 +150,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_DEFAULT_OPS="--ansi"
 
+export ANDROID_HOME=$HOME/Android/Sdk
+path+=("$ANDROID_HOME/emulator")
+path+=("$ANDROID_HOME/platform-tools")
+
 # after adding all the variables
 export PATH
 
@@ -163,5 +167,9 @@ export PATH
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(mcfly init zsh)"
+
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# if [ -e /home/hoang/.nix-profile/etc/profile.d/nix.sh ]; then . /home/hoang/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 # profiling
 # zprof
