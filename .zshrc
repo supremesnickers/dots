@@ -1,5 +1,5 @@
 ########## zsh shell config @hoangolo #########
-## profiling 
+## profiling
 # zmodload zsh/zprof
 
 # oh my zsh
@@ -8,45 +8,51 @@ export DISABLE_AUTO_TITLE='true' # fix for tmux sessions
 
 [[ -f "/etc/os-release" ]] && osname=$(cat /etc/os-release | grep -e '^NAME=' | cut -d = -f 2 | tr -d '"')
 
+# adding builtin oh-my-zsh plugins
 plugins=(
     git
     web-search
     command-not-found
     colored-man-pages
     safe-paste
-    dnf
     sudo
     mercurial
 )
 
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]]; then
+    echo "Adding fast-syntax-highlighting to zsh plugins"
+    git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+fi
 
-[[ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]] && plugins+=(fast-syntax-highlighting)
+plugins+=(fast-syntax-highlighting)
 
-[[ -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab" ]] && plugins+=(fzf-tab)
+if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab" ]]; then
+     echo "Adding fzf-tab to zsh plugins"
+    git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+fi
 
-if [ $(uname) = "Darwin" ]; then
+plugins+=(fzf-tab)
+
+if [[ $(uname) = "Darwin" ]]; then
     plugins+=(brew macos)
-elif [ "$osname" = "Ubuntu Linux" ]
+elif [[ "$osname" = "Ubuntu Linux" ]]
 then
     plugins+=(ubuntu)
+elif [[ "$osname" = "Fedora Linux" ]]
+then
+    plugins+=(dnf)
 fi
 
 source "$ZSH/oh-my-zsh.sh"
 
-[ -f "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-
-if [ $(uname) = "Linux" ]; then
+if [[ $(uname) = "Linux" ]]; then
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/share/fzf/shell/key-bindings.zsh
     # source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
-source ~/.zsh/alias.zsh
-source ~/.zsh/functions.zsh
-
-# export LC_CTYPE=en_US.UTF-8
-# export LC_ALL=en_US.UTF-8
-
+source $HOME/.zsh/alias.zsh
+source $HOME/.zsh/functions.zsh
 
 # Speeds up load time
 DISABLE_UPDATE_PROMPT=true
@@ -64,19 +70,17 @@ autoload -U colors && colors
 # deprecated due to the amazing starship prompt
 #PS1="%B%{$fg[red]%}[%{$fg[green]%}%n%{$fg[blue]%}@%{$fg[yellow]%}%M %{$fg[blue]%}%~%{$fg[red]%}]%{$fg[blue]%}$%b "
 
-export EDITOR="nvim"
+export EDITOR="mg"
 export VISUAL=$EDITOR
-
 
 # Tab completion
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 _comp_options+=(globdots)		# Include hidden files.
 
-[ go ] && GOPATH=$(go env GOPATH)
+[[ go ]] && GOPATH=$(go env GOPATH)
 
-
-if [ $(uname) != "Darwin" ]; then
+if [[ $(uname) != "Darwin" ]]; then
     # export EMACS="/usr/bin/toolbox run /usr/bin/emacs"
     # export EMACS="/usr/bin/flatpak run org.gnu.emacs"
 fi
@@ -85,7 +89,7 @@ path+=("$HOME/.local/bin")
 path+=("$HOME/.node/bin")
 path+=("$HOME/.cargo/bin")
 path+=("$HOME/scripts")
-path+=("$HOME/.emacs.d/bin")
+path+=("$HOME/.config/emacs/bin")
 path+=("$HOME/.composer/vendor/bin")
 path+=("$GOPATH/bin")
 path+=("$HOME/.poetry/bin")
@@ -100,7 +104,7 @@ path+=("$HOME/Downloads/nvim-linux64/bin")
 path+=("$HOME/Downloads/helix-22.12-x86_64-linux/")
 
 
-if [ $(uname) = "Darwin" ]; then
+if [[ $(uname) = "Darwin" ]]; then
     dt="/Volumes/PortableSSD/uni/dt"
 else
     dt="/run/media/hoang/PortableSSD/uni/dt"
@@ -109,7 +113,7 @@ path+=("$dt/verilog/bin/")
 
 export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
 
-if [ -d "/Applications/Emacs.app/Contents/MacOS/bin" ]; then
+if [[ -d "/Applications/Emacs.app/Contents/MacOS/bin" ]]; then
     path+=("/Applications/Emacs.app/Contents/MacOS/bin")
   # alias emacs="emacs -nw" # Always launch "emacs" in terminal mode.
 fi
@@ -135,13 +139,13 @@ fi
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
+[[ -s "$NVM_DIR/nvm.sh" ]] && \. "$NVM_DIR/nvm.sh" --no-use  # This loads nvm
 
 # FZF
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
 # Flutter
-[ -f ~/.local/share/completions/flutter.sh ] && source ~/.local/share/completions/flutter.sh
+[[ -f ~/.local/share/completions/flutter.sh ]] && source ~/.local/share/completions/flutter.sh
 
 # OPAM
 [[ ! -r /var/home/hoang/.opam/opam-init/init.zsh ]] || source /var/home/hoang/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
@@ -150,7 +154,7 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_DEFAULT_OPS="--ansi"
 
-export ANDROID_HOME=$HOME/Android/Sdk
+export ANDROID_HOME="$HOME/Android/Sdk"
 path+=("$ANDROID_HOME/emulator")
 path+=("$ANDROID_HOME/platform-tools")
 
