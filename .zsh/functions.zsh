@@ -1,3 +1,15 @@
+# If there's a frame open, opens the file in that frame
+# else creates a new instance
+ee() {
+  emacsclient -n -e "(if (>= (length (frame-list)) 1) 't)" 2> /dev/null | grep t &> /dev/null
+
+  if [ "$?" -eq "1" ]; then
+    emacsclient -a '' -nqc "$@" &> /dev/null
+  else
+   emacsclient -nq "$@" &> /dev/null
+  fi
+}
+
 fh() {
   print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }
@@ -5,6 +17,18 @@ fh() {
 fe() {
   IFS=$'\n' files=($(fd -H -E .DS_Store -E .git | fzf-tmux -h --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+vf() {
+  local files
+
+  files=(${(f)"$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1 -m)"})
+
+  if [[ -n $files ]]
+  then
+     $EDITOR -- $files
+     print -l $files[1]
+  fi
 }
 
 dote() {
@@ -35,7 +59,7 @@ ftpane() {
 
 fda() {
   local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+  dir=$(fd --type d . 2> /dev/null | fzf-tmux -h --query="$1" --multi --select-1 --exit-0) && cd "$dir"
 }
 
 cf() {

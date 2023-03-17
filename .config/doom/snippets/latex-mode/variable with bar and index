@@ -1,7 +1,0 @@
-# -*- mode: snippet -*-
-# name: variable with bar and index
-# uuid: varbi
-# key: varbi
-# condition: t
-# --
-\bar{$1_{$2}} $0

@@ -1,4 +1,3 @@
-alias ee='emacsclient -n'
 alias weather='curl wttr.in'
 alias svim='sudo nvim'
 alias lx='exa --group-directories-first'
@@ -13,8 +12,7 @@ alias te='toolbox enter'
 alias open='xdg-open'
 alias rpn='java -jar ~/Downloads/rpncalc.jar'
 alias dotfiles="git --git-dir=/home/hoang/.dotfiles --work-tree=$HOME"
-alias dtig="GIT_DIR=$HOME/.dotfiles GIT_WORK_TREE=$HOME tig"
-alias dlg='lg -g .dotfiles -w ~/'
+alias dotlg='lg -g .dotfiles -w ~/'
 
 # Fedora Laptop
 alias charge_limit='sudo tlp setcharge 0 1 BAT1'
