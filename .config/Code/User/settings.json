@@ -1,0 +1,85 @@
+{
+  // THEMING
+  "workbench.preferredLightColorTheme": "Default Light+ Experimental",
+  "workbench.preferredDarkColorTheme": "Default Dark+ Experimental",
+  "workbench.colorTheme": "Default Light+ Experimental",
+  "window.titleBarStyle": "custom",
+  // EDITOR
+  "editor.cursorBlinking": "solid",
+  "editor.cursorStyle": "block",
+  "editor.fontLigatures": true,
+  "editor.fontFamily": "'JetBrainsMono Nerd Font Mono','BlexMono Nerd Font Mono', 'IBM Plex Mono',  'SF Mono', 'Cascadia Code', monospace",
+  "editor.fontSize": 14,
+  "explorer.confirmDelete": true,
+  "workbench.activityBar.visible": true,
+  "workbench.statusBar.visible": true,
+  "terminal.integrated.fontSize": 14,
+  "editor.renderControlCharacters": true,
+  "git.autofetch": true,
+  "editor.wordWrap": "on",
+  // "files.associations": {
+  //   "**/templates/**/*.html": "django-html",
+  //   "**/templates/*": "django-txt",
+  //   "**/requirements{/**,*}.{txt,in}": "pip-requirements"
+  // },
+  // "emmet.includeLanguages": {
+  //   "django-html": "html"
+  // },
+  "git.confirmSync": false,
+  // "beautify.language": {
+  //   "html": ["htm", "html", "django-html", "blade"]
+  // },
+  "remote.SSH.remotePlatform": {
+    "159.69.105.86": "linux"
+  },
+  // "window.menuBarVisibility": "toggle",
+  "explorer.incrementalNaming": "smart",
+  "explorer.confirmDragAndDrop": false,
+  "git.ignoreRebaseWarning": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "python.formatting.provider": "black",
+  "gitlens.views.branches.branches.layout": "list",
+  "css.validate": false,
+  "editor.formatOnType": true,
+  "terminal.integrated.profiles.linux": {
+    "toolbox": {
+      "path": "flatpak-spawn",
+      "args": [
+        "--host",
+        "toolbox",
+        "enter"
+      ]
+    }
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      80
+    ],
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": false
+  },
+  "editor.minimap.enabled": false,
+  "security.workspace.trust.untrustedFiles": "open",
+  "gitlens.advanced.messages": {
+    "suppressGitMissingWarning": true
+  },
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "files.exclude": {
+    "**/.classpath": true,
+    "**/.project": true,
+    "**/.settings": true,
+    "**/.factorypath": true
+  },
+  "files.autoSave": "onFocusChange",
+  "editor.bracketPairColorization.enabled": true,
+  "window.confirmBeforeClose": "keyboardOnly",
+  "telemetry.telemetryLevel": "off",
+}
