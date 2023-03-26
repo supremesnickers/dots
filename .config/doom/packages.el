@@ -10,6 +10,7 @@
 (package! ef-themes)
 (package! etrace :recipe (:host github :repo "aspiers/etrace"))
 (package! gruber-darker-theme)
+(package! dwim-shell-command)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

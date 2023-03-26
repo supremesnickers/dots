@@ -1,22 +1,24 @@
 ;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-(setq user-full-name "Hoang Seidel"
+(setq user-full-name "Duc Hoang Seidel"
       user-mail-address "hoangseidel02@gmail.com")
 
 ;; THEMING
 ;;
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 14 :weight 'regular)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Inter" :size 17 :weight 'regular))
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14 :weight 'regular))
 
-(setq mine/light-theme 'modus-operandi)
+(setq mine/light-theme 'doom-one-light)
 (setq mine/dark-theme 'kaolin-dark)
-(setq doom-themes-enable-bold nil)
+(setq doom-themes-enable-bold nil
+      doom-themes-padded-modeline 3
+      doom-acario-light-brighter-modeline t)
 
 (setq modus-themes-common-palette-overrides
       '((fringe unspecified)
         (bg-mode-line-active "#f0f0f0")
-        ;; (border-mode-line-active "#eeeeee")
-        ;; (border-mode-line-inactive "#eeeeee")
+        (border-mode-line-active bg-mode-line-inactive)
+        (border-mode-line-inactive bg-mode-line-active)
         ))
 
 (setq ef-themes-common-palette-overrides
@@ -36,7 +38,8 @@
              (string-equal var "color-scheme"))
     (mine/set-theme-from-dbus-value (car value))))
 
-(require 'dbus)
+(autoload 'dbus-register-signal "dbus")
+(autoload 'dbus-call-method-asynchronously "dbus")
 
 ;; Register for future changes
 (dbus-register-signal
@@ -66,6 +69,8 @@
 ;; Hide minor modes in modeline in submenu
 (setq minions-mode-line-lighter "…")
 (add-hook 'after-change-major-mode-hook 'minions-mode)
+
+(column-number-mode 1)
 
 ;; Code
 (setq display-line-numbers-type t)
@@ -139,6 +144,20 @@
 ;; (map! "mouse-8" #'previous-buffer
 ;;       "mouse-9" #'next-buffer)
 
+;; BEHAVIOUR
+;;
+;; (set-popup-rule! "^*compilation*" :quit 'current :select nil :height 0.3)
+(set-popup-rule! "^*compilation*" :quit 'current :select nil :height 0.3 :modeline t)
+
 ;; ORG-MODE
 ;;
 (setq org-directory "~/Documents/org/")
+
+;; DIRED
+;;
+(setq dired-free-space nil
+      dired-listing-switches "-AGFhl -v --group-directories-first")
+
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
+
+;; DWIM commands
