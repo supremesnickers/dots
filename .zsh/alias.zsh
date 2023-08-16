@@ -14,6 +14,8 @@ alias rpn='java -jar ~/Downloads/rpncalc.jar'
 alias dotfiles="git --git-dir=/home/hoang/.dotfiles --work-tree=$HOME"
 alias dotlg='lg -g .dotfiles -w ~/'
 
+alias e='emacs -Q -nw'
+
 # Fedora Laptop
 alias charge_limit='sudo tlp setcharge 0 1 BAT1'
 alias charge_full='sudo tlp fullcharge BAT1'

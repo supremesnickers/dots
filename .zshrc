@@ -10,45 +10,45 @@ export DISABLE_AUTO_TITLE='true' # fix for tmux sessions
 
 # adding builtin oh-my-zsh plugins
 plugins=(
-    git
-    web-search
-    command-not-found
-    colored-man-pages
-    safe-paste
-    sudo
-    mercurial
+  git
+  # web-search
+  command-not-found
+  colored-man-pages
+  safe-paste
+  sudo
+  # mercurial
 )
 
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]]; then
-    echo "Adding fast-syntax-highlighting to zsh plugins"
-    git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+  echo "Adding fast-syntax-highlighting to zsh plugins"
+  git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
 fi
 
 plugins+=(fast-syntax-highlighting)
 
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab" ]]; then
-     echo "Adding fzf-tab to zsh plugins"
-    git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+  echo "Adding fzf-tab to zsh plugins"
+  git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 fi
 
 plugins+=(fzf-tab)
 
 if [[ $(uname) = "Darwin" ]]; then
-    plugins+=(brew macos)
+  plugins+=(brew macos)
 elif [[ "$osname" = "Ubuntu Linux" ]]
 then
-    plugins+=(ubuntu)
+  plugins+=(ubuntu)
 elif [[ "$osname" = "Fedora Linux" ]]
 then
-    plugins+=(dnf)
+  plugins+=(dnf)
 fi
 
 source "$ZSH/oh-my-zsh.sh"
 
 if [[ $(uname) = "Linux" ]]; then
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source /usr/share/fzf/shell/key-bindings.zsh
-    # source /usr/share/doc/fzf/examples/completion.zsh
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/share/fzf/shell/key-bindings.zsh
+  # source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
 source $HOME/.zsh/alias.zsh
@@ -70,7 +70,7 @@ autoload -U colors && colors
 # deprecated due to the amazing starship prompt
 #PS1="%B%{$fg[red]%}[%{$fg[green]%}%n%{$fg[blue]%}@%{$fg[yellow]%}%M %{$fg[blue]%}%~%{$fg[red]%}]%{$fg[blue]%}$%b "
 
-export EDITOR="mg"
+export EDITOR="nvim"
 export VISUAL=$EDITOR
 
 # Tab completion
@@ -81,47 +81,45 @@ _comp_options+=(globdots)		# Include hidden files.
 [[ go ]] && GOPATH=$(go env GOPATH)
 
 if [[ $(uname) != "Darwin" ]]; then
-    # export EMACS="/usr/bin/toolbox run /usr/bin/emacs"
-    # export EMACS="/usr/bin/flatpak run org.gnu.emacs"
+  # export EMACS="/usr/bin/toolbox run /usr/bin/emacs"
+  # export EMACS="/usr/bin/flatpak run org.gnu.emacs"
 fi
 
 path+=("$HOME/.local/bin")
 path+=("$HOME/.node/bin")
 path+=("$HOME/.cargo/bin")
-path+=("$HOME/scripts")
+# path+=("$HOME/scripts")
 path+=("$HOME/.config/emacs/bin")
-path+=("$HOME/.composer/vendor/bin")
+# path+=("$HOME/.composer/vendor/bin")
 path+=("$GOPATH/bin")
-path+=("$HOME/.poetry/bin")
-path+=("$HOME/.nimble/bin")
+# path+=("$HOME/.poetry/bin")
+# path+=("$HOME/.nimble/bin")
 
-path+=("/usr/local/opt/openjdk/bin")
-path+=("/Library/TeX/texbin")
-path+=("$HOME/.local/share/flutter/bin")
-path+=("$HOME/.deno/bin")
-path+=("$HOME/Projects/bsc/bin")
-path+=("$HOME/Downloads/nvim-linux64/bin")
-path+=("$HOME/Downloads/helix-22.12-x86_64-linux/")
+# path+=("/usr/local/opt/openjdk/bin")
+# path+=("/Library/TeX/texbin")
+# path+=("$HOME/.local/share/flutter/bin")
+# path+=("$HOME/.deno/bin")
+# path+=("$HOME/Projects/bsc/bin")
+# path+=("$HOME/Downloads/nvim-linux64/bin")
+# path+=("$HOME/Downloads/helix-22.12-x86_64-linux/")
 
 
 if [[ $(uname) = "Darwin" ]]; then
-    dt="/Volumes/PortableSSD/uni/dt"
-else
-    dt="/run/media/hoang/PortableSSD/uni/dt"
+  dt="/Volumes/PortableSSD/uni/dt"
 fi
-path+=("$dt/verilog/bin/")
+# path+=("$dt/verilog/bin/")
 
 export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
 
 if [[ -d "/Applications/Emacs.app/Contents/MacOS/bin" ]]; then
-    path+=("/Applications/Emacs.app/Contents/MacOS/bin")
+  path+=("/Applications/Emacs.app/Contents/MacOS/bin")
   # alias emacs="emacs -nw" # Always launch "emacs" in terminal mode.
 fi
 
 # macOS specific
 if [ $(uname) = "Darwin" ]; then
-    launchctl setenv PATH $PATH
-    [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
+  launchctl setenv PATH $PATH
+  [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
 [ -d "$HOME/.cargo" ] && source "$HOME/.cargo/env"
@@ -161,6 +159,8 @@ path+=("$ANDROID_HOME/platform-tools")
 # after adding all the variables
 export PATH
 
+if [ -e /home/hoang/.nix-profile/etc/profile.d/nix.sh ]; then . /home/hoang/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
 # loading zsh-syntax-highlighting
 # if [ $(uname) = "Darwin" ]; then
 #     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -171,9 +171,10 @@ export PATH
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(mcfly init zsh)"
+eval "$(direnv hook zsh)"
 
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-# if [ -e /home/hoang/.nix-profile/etc/profile.d/nix.sh ]; then . /home/hoang/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
 # profiling
 # zprof

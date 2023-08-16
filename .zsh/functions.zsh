@@ -6,7 +6,7 @@ ee() {
   if [ "$?" -eq "1" ]; then
     emacsclient -a '' -nqc "$@" &> /dev/null
   else
-   emacsclient -nq "$@" &> /dev/null
+    emacsclient -nq "$@" &> /dev/null
   fi
 }
 
@@ -26,8 +26,8 @@ vf() {
 
   if [[ -n $files ]]
   then
-     $EDITOR -- $files
-     print -l $files[1]
+    $EDITOR -- $files
+    print -l $files[1]
   fi
 }
 
@@ -53,7 +53,7 @@ ftpane() {
     tmux select-pane -t ${target_window}.${target_pane}
   else
     tmux select-pane -t ${target_window}.${target_pane} &&
-    tmux select-window -t $target_window
+      tmux select-window -t $target_window
   fi
 }
 
@@ -69,12 +69,12 @@ cf() {
 
   if [[ -n $file ]]
   then
-     if [[ -d $file ]]
-     then
-        cd -- $file
-     else
-        cd -- ${file:h}
-     fi
+    if [[ -d $file ]]
+    then
+      cd -- $file
+    else
+      cd -- ${file:h}
+    fi
   fi
 }
 
@@ -86,12 +86,31 @@ fif() {
 dot(){
   if [[ "$#" -eq 0 ]]; then
     (cd /
-    for i in $(dotfiles ls-files); do
-      echo -n "$(dotfiles -c color.status=always status $i -s | sed "s#$i##")"
-      echo -e "¬/$i¬\e[0;33m$(dotfiles -c color.ui=always log -1 --format="%s" -- $i)\e[0m"
-    done
+     for i in $(dotfiles ls-files); do
+       echo -n "$(dotfiles -c color.status=always status $i -s | sed "s#$i##")"
+       echo -e "¬/$i¬\e[0;33m$(dotfiles -c color.ui=always log -1 --format="%s" -- $i)\e[0m"
+     done
     ) | column -t --separator=¬ -T2
   else
     dotfiles $*
   fi
+}
+
+view_nix_deps () {
+  if [ "$#" -ne 1 ]; then
+    echo "Incorrect invocation."
+    echo "Example invocation: view_nix_deps neofetch"
+  else
+    nix-store --query --graph $(which $1) | /usr/bin/dot -Tpng > /tmp/graph.png && xdg-open /tmp/graph.png
+  fi
+}
+
+unzip_d () {
+    zipfile="$1"
+    zipdir=${1%.zip}
+    unzip -d "$zipdir" "$zipfile"
+}
+
+recurse_unzip_to_dirs () {
+    find . '(' -iname '*.zip' -o -iname '*.jar' ')' -exec sh -c 'unzip -o -d "${0%.*}" "$0"' '{}' ';'
 }
