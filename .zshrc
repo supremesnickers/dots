@@ -15,7 +15,7 @@ plugins=(
   command-not-found
   colored-man-pages
   safe-paste
-  sudo
+  # sudo
   # mercurial
 )
 
@@ -31,7 +31,7 @@ if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab" ]]; then
   git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
 fi
 
-plugins+=(fzf-tab)
+# plugins+=(fzf-tab)
 
 if [[ $(uname) = "Darwin" ]]; then
   plugins+=(brew macos)
@@ -43,7 +43,6 @@ then
   plugins+=(dnf)
 fi
 
-source "$ZSH/oh-my-zsh.sh"
 
 if [[ $(uname) = "Linux" ]]; then
   source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -51,8 +50,6 @@ if [[ $(uname) = "Linux" ]]; then
   # source /usr/share/doc/fzf/examples/completion.zsh
 fi
 
-source $HOME/.zsh/alias.zsh
-source $HOME/.zsh/functions.zsh
 
 # Speeds up load time
 DISABLE_UPDATE_PROMPT=true
@@ -63,6 +60,10 @@ DISABLE_UPDATE_PROMPT=true
 #   compinit
 # done
 # compinit -C
+
+source "$ZSH/oh-my-zsh.sh"
+source $HOME/.zsh/alias.zsh
+source $HOME/.zsh/functions.zsh
 
 # color the username and stuff
 autoload -U colors && colors
@@ -92,6 +93,7 @@ path+=("$HOME/.cargo/bin")
 path+=("$HOME/.config/emacs/bin")
 # path+=("$HOME/.composer/vendor/bin")
 path+=("$GOPATH/bin")
+path+=("$HOME/.platformio/penv/bin")
 # path+=("$HOME/.poetry/bin")
 # path+=("$HOME/.nimble/bin")
 
@@ -142,15 +144,14 @@ export NVM_DIR="$HOME/.nvm"
 # FZF
 [[ -f ~/.fzf.zsh ]] && source ~/.fzf.zsh
 
-# Flutter
-[[ -f ~/.local/share/completions/flutter.sh ]] && source ~/.local/share/completions/flutter.sh
+# # Flutter
+# [[ -f ~/.local/share/completions/flutter.sh ]] && source ~/.local/share/completions/flutter.sh
 
-# OPAM
-[[ ! -r /var/home/hoang/.opam/opam-init/init.zsh ]] || source /var/home/hoang/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+# # OPAM
+# [[ ! -r /var/home/hoang/.opam/opam-init/init.zsh ]] || source /var/home/hoang/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
 
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
-export FZF_DEFAULT_OPS="--ansi"
 
 export ANDROID_HOME="$HOME/Android/Sdk"
 path+=("$ANDROID_HOME/emulator")
@@ -173,8 +174,11 @@ eval "$(starship init zsh)"
 eval "$(mcfly init zsh)"
 eval "$(direnv hook zsh)"
 
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # profiling
 # zprof

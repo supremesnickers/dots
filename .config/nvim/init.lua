@@ -36,6 +36,8 @@ local opts = {
 
 require("lazy").setup("plugins", {})
 
+-- require("leap")
+
 require("config.options")
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
@@ -86,6 +88,7 @@ require("mini.align").setup()
 require("mini.bracketed").setup()
 -- require("mini.animate").setup()
 require("mini.surround").setup()
+require("mini.files").setup()
 require("mini.pairs").setup()
 require("mini.basics").setup({
   options = {
@@ -166,11 +169,7 @@ require("colorizer").setup {
 }
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
-require("indent_blankline").setup {
-  char = "┊",
-  show_trailing_blankline_indent = false,
-  show_current_context = true,
-}
+require("ibl").setup {}
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
@@ -274,7 +273,7 @@ vim.keymap.set("v", "<leader>rs", "<cmd>'<, '>SnipRun<cr>", { desc = "Run select
 -- See `:help nvim-treesitter`
 require("nvim-treesitter.configs").setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript", "help" },
+  ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript" },
 
   highlight = { enable = true },
   indent = { enable = true },

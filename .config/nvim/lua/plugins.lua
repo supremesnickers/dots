@@ -97,7 +97,10 @@ return {
     "folke/noice.nvim",
     config = function()
       require("noice").setup({
-          -- add any options here
+        presets = {
+          bottom_search = true,
+          command_palette = true,
+        }
       })
     end,
     dependencies = {
@@ -129,8 +132,12 @@ return {
   },
 
   {
+    "ggandor/leap.nvim"
+  },
+
+  {
     "chrisgrieser/nvim-recorder",
-    config = function() require("recorder").setup {} end,
+    config = function() require("recorder").setup({}) end,
   },
 
   -- Git related plugins
