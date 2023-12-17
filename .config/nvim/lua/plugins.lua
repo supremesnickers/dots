@@ -93,22 +93,22 @@ return {
     end
   },
 
-  {
-    "folke/noice.nvim",
-    config = function()
-      require("noice").setup({
-        presets = {
-          bottom_search = true,
-          command_palette = true,
-        }
-      })
-    end,
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      }
-  },
-
+  -- {
+  --   "folke/noice.nvim",
+  --   config = function()
+  --     require("noice").setup({
+  --       presets = {
+  --         bottom_search = true,
+  --         command_palette = true,
+  --       }
+  --     })
+  --   end,
+  --   dependencies = {
+  --     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+  --     "MunifTanjim/nui.nvim",
+  --     }
+  -- },
+  --
   {
     "folke/which-key.nvim",
     config = function()

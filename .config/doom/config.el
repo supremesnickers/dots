@@ -4,9 +4,9 @@
 
 ;; THEMING
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 14 :weight 'regular)
-      doom-big-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 14 :weight 'regular))
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'regular)
+      doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 :weight 'regular)
+      doom-variable-pitch-font (font-spec :family "Helvetica Neue" :size 14 :weight 'regular))
 
 (setq mine/light-theme 'doom-one-light)
 (setq mine/dark-theme 'doom-nord-aurora)
@@ -27,38 +27,46 @@
 ;; Auto-switching theme according to system preference
 ;;
 ;; taken from https://www.reddit.com/r/emacs/comments/o49v2w/comment/i5ibcyv
-(defun mine/set-theme-from-dbus-value (value)
+(defun mine/apply-theme (value)
   "Set the appropiate theme according to the color-scheme setting value."
-  (if (equal value '1)
-      (consult-theme mine/dark-theme)
-    (consult-theme mine/light-theme)))
+  (if IS-LINUX
+      (if (equal value '1)
+          (consult-theme mine/dark-theme)
+        (consult-theme mine/light-theme))
+  (progn
+    (mapc #'disable-theme custom-enabled-themes)
+    (pcase value
+      ('light (consult-theme mine/light-theme))
+      ('dark (consult-theme mine/dark-theme))))))
 
 (defun mine/color-scheme-changed (path var value)
   "DBus handler to detect when the color-scheme has changed."
   (when (and (string-equal path "org.freedesktop.appearance")
              (string-equal var "color-scheme"))
-    (mine/set-theme-from-dbus-value (car value))))
+    (mine/apply-theme (car value))))
 
-(autoload 'dbus-register-signal "dbus")
-(autoload 'dbus-call-method-asynchronously "dbus")
+(if IS-LINUX
+    (progn
+      (autoload 'dbus-register-signal "dbus")
+      (autoload 'dbus-call-method-asynchronously "dbus")
 
-;; Register for future changes
-(dbus-register-signal
- :session "org.freedesktop.portal.Desktop"
- "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
- "SettingChanged"
- #'mine/color-scheme-changed)
+      ;; Register for future changes
+      (dbus-register-signal
+       :session "org.freedesktop.portal.Desktop"
+       "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
+       "SettingChanged"
+       #'mine/color-scheme-changed)
 
-;; Request the current color-scheme
-(dbus-call-method-asynchronously
- :session "org.freedesktop.portal.Desktop"
- "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
- "Read"
- (lambda (value) (mine/set-theme-from-dbus-value (caar value)))
- "org.freedesktop.appearance"
- "color-scheme"
- )
-
+      ;; Request the current color-scheme
+      (dbus-call-method-asynchronously
+       :session "org.freedesktop.portal.Desktop"
+       "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
+       "Read"
+       (lambda (value) (mine/set-theme-from-dbus-value (caar value)))
+       "org.freedesktop.appearance"
+       "color-scheme"
+       ))
+  (add-hook 'ns-system-appearance-change-functions #'mine/apply-theme))
 
 (setq undo-limit 80000000              ; Raise undo-limit to 80Mb
       undo-fu-allow-undo-in-region t   ; More selective undo

@@ -6,7 +6,11 @@
 export ZSH="$HOME/.oh-my-zsh"
 export DISABLE_AUTO_TITLE='true' # fix for tmux sessions
 
-[[ -f "/etc/os-release" ]] && osname=$(cat /etc/os-release | grep -e '^NAME=' | cut -d = -f 2 | tr -d '"')
+if [[ -f "/etc/os-release" ]]; then
+    osname=$(cat /etc/os-release | grep -e '^NAME=' | cut -d = -f 2 | tr -d '"')
+else
+    osname=$(uname)
+fi
 
 # adding builtin oh-my-zsh plugins
 plugins=(
@@ -29,25 +33,23 @@ plugins+=(fast-syntax-highlighting)
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab" ]]; then
   echo "Adding fzf-tab to zsh plugins"
   git clone https://github.com/Aloxaf/fzf-tab ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-tab
+  plugins+=(fzf-tab)
 fi
 
-# plugins+=(fzf-tab)
-
-if [[ $(uname) = "Darwin" ]]; then
+if [[ "$osname" = "Darwin" ]]; then
   plugins+=(brew macos)
-elif [[ "$osname" = "Ubuntu Linux" ]]
-then
+elif [[ "$osname" = "Ubuntu Linux" ]]; then
   plugins+=(ubuntu)
-elif [[ "$osname" = "Fedora Linux" ]]
-then
+elif [[ "$osname" = "Fedora Linux" ]]; then
   plugins+=(dnf)
 fi
-
 
 if [[ $(uname) = "Linux" ]]; then
   source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/share/fzf/shell/key-bindings.zsh
   # source /usr/share/doc/fzf/examples/completion.zsh
+elif [[ "$osname" = "Darwin" ]]; then
+  [ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
 
@@ -81,7 +83,7 @@ _comp_options+=(globdots)		# Include hidden files.
 
 [[ go ]] && GOPATH=$(go env GOPATH)
 
-if [[ $(uname) != "Darwin" ]]; then
+if [[ "$osname" != "Darwin" ]]; then
   # export EMACS="/usr/bin/toolbox run /usr/bin/emacs"
   # export EMACS="/usr/bin/flatpak run org.gnu.emacs"
 fi
@@ -89,27 +91,9 @@ fi
 path+=("$HOME/.local/bin")
 path+=("$HOME/.node/bin")
 path+=("$HOME/.cargo/bin")
-# path+=("$HOME/scripts")
 path+=("$HOME/.config/emacs/bin")
-# path+=("$HOME/.composer/vendor/bin")
 path+=("$GOPATH/bin")
 path+=("$HOME/.platformio/penv/bin")
-# path+=("$HOME/.poetry/bin")
-# path+=("$HOME/.nimble/bin")
-
-# path+=("/usr/local/opt/openjdk/bin")
-# path+=("/Library/TeX/texbin")
-# path+=("$HOME/.local/share/flutter/bin")
-# path+=("$HOME/.deno/bin")
-# path+=("$HOME/Projects/bsc/bin")
-# path+=("$HOME/Downloads/nvim-linux64/bin")
-# path+=("$HOME/Downloads/helix-22.12-x86_64-linux/")
-
-
-if [[ $(uname) = "Darwin" ]]; then
-  dt="/Volumes/PortableSSD/uni/dt"
-fi
-# path+=("$dt/verilog/bin/")
 
 export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
 
@@ -119,7 +103,7 @@ if [[ -d "/Applications/Emacs.app/Contents/MacOS/bin" ]]; then
 fi
 
 # macOS specific
-if [ $(uname) = "Darwin" ]; then
+if [ "$osname" = "Darwin" ]; then
   launchctl setenv PATH $PATH
   [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
@@ -128,12 +112,8 @@ fi
 
 # eval "$(direnv hook zsh)"
 
-# [ bw ] && eval "$(bw completion --shell zsh); compdef _bw bw;"
-
 # with zoxide installed from homebrew
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env" # ghcup-env
-
-# path+=("$HOME/.nvm/versions/node/v16.4.2/bin")
 
 # raylib
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:
@@ -147,9 +127,6 @@ export NVM_DIR="$HOME/.nvm"
 # # Flutter
 # [[ -f ~/.local/share/completions/flutter.sh ]] && source ~/.local/share/completions/flutter.sh
 
-# # OPAM
-# [[ ! -r /var/home/hoang/.opam/opam-init/init.zsh ]] || source /var/home/hoang/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
-
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
@@ -162,12 +139,6 @@ export PATH
 
 if [ -e /home/hoang/.nix-profile/etc/profile.d/nix.sh ]; then . /home/hoang/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
-# loading zsh-syntax-highlighting
-# if [ $(uname) = "Darwin" ]; then
-#     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# else
-#     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-# fi
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
@@ -179,6 +150,11 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+if [ "$osname" = "Darwin" ]; then
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+  ssh-add --apple-load-keychain 2> /dev/null
+fi
 
 # profiling
 # zprof

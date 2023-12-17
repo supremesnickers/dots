@@ -42,7 +42,7 @@ set -g status-left "$tm_session_name"
 
 tm_tunes="#[fg=brightcyan] #(~/dotfiles/tmux/.config/tmux/tunes.sh)"
 
-tm_battery="#[fg=$base0F,bg=$base00]   #(cat /sys/class/power_supply/BAT1/capacity)%"
+tm_battery="#[fg=$base0F,bg=$base00]   #{battery_percentage}"
 tm_date="#[default,fg=white] %R"
 tm_host="#[fg=brightyellow,bg=default] #h "
 

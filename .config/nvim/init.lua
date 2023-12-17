@@ -199,6 +199,7 @@ require("telescope").load_extension("projects")
 vim.keymap.set("n", "<leader>pr", require "telescope".extensions.projects.projects, { desc = "Open recent project" })
 
 local t_builtin = require("telescope.builtin")
+local t_utils = require("telescope.utils")
 local t_simple_dropdown = require("telescope.themes").get_dropdown {
   winblend = 10,
   previewer = false,
@@ -228,6 +229,11 @@ end, { desc = "[/] Fuzzily search in current buffer]" })
 
 vim.keymap.set("n", "<leader><leader>", t_builtin.find_files, { desc = "[F]ind [F]iles" })
 
+vim.keymap.set("n", "<leader>fd", function()
+  t_builtin.find_files({
+        cwd = t_utils.buffer_dir(),
+    })
+end, { desc = "[F]ind in current [d]irectory"})
 vim.keymap.set("n", "<leader>ff", t_builtin.find_files,       { desc = "[F]ind [F]iles" })
 vim.keymap.set("n", "<leader>fr", t_builtin.oldfiles, { desc = "Find [r]ecently opened files" })
 vim.keymap.set("n", "<leader>fc", function()
@@ -400,7 +406,12 @@ require("mason").setup()
 
 -- Enable the following language servers
 -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = { "rust_analyzer", "pyright", "tsserver", "lua_ls" }
+local servers = {
+  -- "rust_analyzer",
+  -- "pyright",
+  "lua_ls",
+  "clangd",
+}
 
 -- Ensure the servers above are installed
 require("mason-lspconfig").setup {

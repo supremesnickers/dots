@@ -2,30 +2,14 @@
 	email = hoangseidel02@gmail.com
 	name = Hoang Seidel
 
-[include]
-    path = /home/hoang/Projects/delta/themes.gitconfig
+[diff]
+        tool = difftastic
 
-[core]
-    pager = delta
-	autocrlf = input
+[difftool]
+        prompt = false
 
-[interactive]
-    diffFilter = delta --color-only
+[difftool "difftastic"]
+        cmd = difft "$LOCAL" "$REMOTE"
 
-[delta]
-    navigate = true
-    side-by-side = true
-    ; features = collared-trogon
-
-[merge]
-    conflictstyle = diff3
-	tool = flatpak run org.gnome.Meld
-
-; [diff]
-;     colorMoved = default
-; 	external = difft
-[filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
+[pager]
+        difftool = true
