@@ -13,9 +13,10 @@
 (package! dwim-shell-command)
 (package! breadcrumb :recipe (:host github :repo "joaotavora/breadcrumb"))
 ;; (package! svelte-mode)
-(package! promela-mode :recipe (:host github :repo "/g15ecb/promela-mode"))
+;; (package! promela-mode :recipe (:host github :repo "/g15ecb/promela-mode"))
 (package! zzz-to-char)
-(package! meson-mode)
+;; (package! meson-mode)
+(package! platformio-mode)
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

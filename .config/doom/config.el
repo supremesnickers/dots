@@ -125,6 +125,15 @@ the buffer works like a pager."
 ;; associate .ui files with xml type
 (add-to-list 'auto-mode-alist '("\\.ui\\'" . xml-mode))
 
+(require 'platformio-mode)
+
+;; Enable ccls for all c++ files, and platformio-mode only
+;; when needed (platformio.ini present in project root).
+(add-hook 'c++-mode-hook (lambda ()
+                           (lsp-deferred)
+                           (platformio-conditionally-enable)))
+
+
 (breadcrumb-mode 1)
 
 (setq tab-width 2)

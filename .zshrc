@@ -19,7 +19,7 @@ plugins=(
   command-not-found
   colored-man-pages
   safe-paste
-  # sudo
+    # sudo
   # mercurial
 )
 
@@ -37,7 +37,7 @@ if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fzf-tab" ]]; then
 fi
 
 if [[ "$osname" = "Darwin" ]]; then
-  plugins+=(brew macos)
+  plugins+=(brew macos iterm2)
 elif [[ "$osname" = "Ubuntu Linux" ]]; then
   plugins+=(ubuntu)
 elif [[ "$osname" = "Fedora Linux" ]]; then
@@ -52,11 +52,10 @@ elif [[ "$osname" = "Darwin" ]]; then
   [ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-
 # Speeds up load time
 DISABLE_UPDATE_PROMPT=true
 
-# # Perform compinit only once a day.
+# Perform compinit only once a day.
 # autoload -Uz compinit
 # for dump in ~/.zcompdump(N.mh+24); do
 #   compinit
@@ -64,6 +63,14 @@ DISABLE_UPDATE_PROMPT=true
 # compinit -C
 
 source "$ZSH/oh-my-zsh.sh"
+# add completions from homebrew to zsh
+if type brew &>/dev/null; then
+  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+
+  autoload -Uz compinit
+  compinit
+fi
+
 source $HOME/.zsh/alias.zsh
 source $HOME/.zsh/functions.zsh
 
@@ -145,15 +152,20 @@ eval "$(starship init zsh)"
 eval "$(mcfly init zsh)"
 eval "$(direnv hook zsh)"
 
+# LANGUAGE VERSION MANAGEMENT
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 if [ "$osname" = "Darwin" ]; then
   eval "$(/opt/homebrew/bin/brew shellenv)"
   ssh-add --apple-load-keychain 2> /dev/null
+
+  export GPG_TTY=$(tty)
 fi
 
 # profiling
