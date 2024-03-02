@@ -1,6 +1,7 @@
 [user]
 	email = hoangseidel02@gmail.com
 	name = Hoang Seidel
+	signingkey = 526F0A9176CEDB8E
 
 [diff]
         tool = difftastic
@@ -13,3 +14,14 @@
 
 [pager]
         difftool = true
+[commit]
+	gpgsign = true
+[core]
+	autocrlf = input
+[tag]
+	gpgsign = true
+[gpg]
+	program = /opt/homebrew/bin/gpg
+
+[alias]
+	 smartlog = log --graph --pretty=format:'commit: %C(bold red)%h%Creset %C(red)[%H]%Creset %C(bold magenta)%d %Creset%ndate: %C(bold yellow)%cd %Creset%C(yellow)%cr%Creset%nauthor: %C(bold blue)%an%Creset %C(blue)[%ae]%Creset%n%C(cyan)%s%n%Creset'

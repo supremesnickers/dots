@@ -26,7 +26,7 @@ hidden = false
 render = false
 
 [keys.select]
-p = "replace_selections_with_clipboard" # No life without this   
+p = "replace_with_yanked" # No life without this   
 
 [keys.normal]
 "{" = ["goto_prev_paragraph", "collapse_selection"]

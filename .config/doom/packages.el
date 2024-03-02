@@ -6,8 +6,6 @@
 ;; use 'M-x doom/reload'.
 
 (package! minions :pin "62948a4a2951")
-(package! kaolin-themes)
-(package! ef-themes)
 (package! etrace :recipe (:host github :repo "aspiers/etrace"))
 (package! gruber-darker-theme)
 (package! dwim-shell-command)

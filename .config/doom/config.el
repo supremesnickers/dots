@@ -6,8 +6,8 @@
 ;;
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font" :size 14 :weight 'regular)
       doom-big-font (font-spec :family "JetBrainsMono Nerd Font" :size 22 :weight 'regular)
-      doom-variable-pitch-font (font-spec :family "Helvetica Neue" :size 14 :weight 'regular))
-
+      doom-variable-pitch-font (font-spec :family "Helvetica Neue" :size 14 :weight 'regular)
+)
 (setq mine/light-theme 'doom-one-light)
 (setq mine/dark-theme 'doom-nord-aurora)
 (setq doom-themes-enable-bold nil
@@ -162,11 +162,11 @@ the buffer works like a pager."
                                    '(tree-sitter-mark-bigger-node))))
 ;; COMPLETION
 ;; use vertico multiform to have a different prompt for different uses
-(setq vertico-multiform-categories '((file flat)
-                                     (consult-grep buffer))
-      vertico-multiform-commands '((execute-extended-command flat)
-                                   (consult-recent-file indexed)))
-(vertico-multiform-mode)
+;; (setq vertico-multiform-categories '((file flat)
+;;                                      (consult-grep buffer))
+;;       vertico-multiform-commands '((execute-extended-command flat)
+;;                                    (consult-recent-file indexed)))
+;; (vertico-multiform-mode)
 ;; improve completion by having the first word match like the initial,
 ;; later components (separated by space) ending with ~ are matched in
 ;; the flex style (fuzzy)

@@ -95,12 +95,16 @@ if [[ "$osname" != "Darwin" ]]; then
   # export EMACS="/usr/bin/flatpak run org.gnu.emacs"
 fi
 
+brew_prefix=$(brew --prefix)
+
+
 path+=("$HOME/.local/bin")
 path+=("$HOME/.node/bin")
 path+=("$HOME/.cargo/bin")
 path+=("$HOME/.config/emacs/bin")
 path+=("$GOPATH/bin")
 path+=("$HOME/.platformio/penv/bin")
+path+=("$brew_prefix/opt/llvm/bin")
 
 export NODE_PATH="$HOME/.node/lib/node_modules:$NODE_PATH"
 
@@ -166,6 +170,7 @@ if [ "$osname" = "Darwin" ]; then
   ssh-add --apple-load-keychain 2> /dev/null
 
   export GPG_TTY=$(tty)
+  gpgconf --launch gpg-agent
 fi
 
 # profiling
