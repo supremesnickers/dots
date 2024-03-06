@@ -9,7 +9,7 @@
       doom-variable-pitch-font (font-spec :family "Helvetica Neue" :size 14 :weight 'regular)
 )
 (setq mine/light-theme 'doom-one-light)
-(setq mine/dark-theme 'doom-nord-aurora)
+(setq mine/dark-theme 'doom-badger)
 (setq doom-themes-enable-bold nil
       doom-themes-padded-modeline 3
       doom-acario-light-brighter-modeline t)

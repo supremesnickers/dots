@@ -2,6 +2,10 @@ vim.o.autowrite = true -- enable auto write
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
+-- Set timeout for which-key
+vim.o.timeout = true
+vim.o.timeoutlen = 400
+
 -- Set highlight on search
 vim.o.hlsearch = false
 

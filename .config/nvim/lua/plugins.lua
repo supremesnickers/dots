@@ -6,6 +6,7 @@ return {
             -- Automatically install LSPs to stdpath for neovim
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
 
             -- Useful status updates for LSP
             "j-hui/fidget.nvim",
@@ -13,6 +14,36 @@ return {
             -- Additional lua configuration, makes nvim stuff amazing
             "folke/neodev.nvim",
         },
+    },
+
+    { -- Autoformat
+        'stevearc/conform.nvim',
+        opts = {
+            notify_on_error = false,
+            format_on_save = {
+                timeout_ms = 500,
+                lsp_fallback = true,
+            },
+            formatters_by_ft = {
+                lua = { 'stylua' },
+                -- Conform can also run multiple formatters sequentially
+                -- python = { "isort", "black" },
+                --
+                -- You can use a sub-list to tell conform to run *until* a formatter
+                -- is found.
+                -- javascript = { { "prettierd", "prettier" } },
+            },
+        },
+        config = function()
+            require('conform').setup()
+        end,
+    },
+
+    {
+        "folke/todo-comments.nvim",
+        event = 'VimEnter',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        opts = { signs = false }
     },
 
     {
@@ -35,15 +66,89 @@ return {
         end
     },
 
-    "NvChad/nvim-colorizer.lua",
+    {
+        "NvChad/nvim-colorizer.lua",
+        config = function()
+            -- Enables colorization of hex color strings
+            require("colorizer").setup {
+                user_default_options = {
+                    names = false
+                }
+            }
+        end
+    },
+
+    {
+        "nvim-lualine/lualine.nvim",
+        dependencies = { "nvim-tree/nvim-web-devicons", opt = true }
+    },
 
     {
         -- Autocompletion
         "hrsh7th/nvim-cmp",
-        dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
+        dependencies = { "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-path", "L3MON4D3/LuaSnip", "saadparwaiz1/cmp_luasnip" },
     },
 
-    { "echasnovski/mini.nvim", version = false },
+    {
+        "echasnovski/mini.nvim",
+        config = function()
+            -- Enable mini.nvim modules
+            require("mini.comment").setup()
+            require("mini.align").setup()
+            require("mini.bracketed").setup()
+            -- require("mini.animate").setup()
+            require("mini.ai").setup { n_lines = 500 }
+            require("mini.surround").setup()
+            require("mini.files").setup()
+            require("mini.pairs").setup()
+            require("mini.basics").setup({
+                options = {
+                    -- extra_ui = true
+                }
+            })
+            require("mini.move").setup()
+            require("mini.cursorword").setup()
+            -- require("mini.jump2d").setup({
+            --   labels = "tnhesoaigybjwfrudpqcvmkxlxz",
+            --   allowed_windows = { not_current = false },
+            --   mappings = {
+            --     start_jumping = "gss"
+            --   }
+            -- })
+
+            -- Mini.Jump2d keybindings inspired by Doom Emacs
+            -- local jump_opts = MiniJump2d.builtin_opts;
+            -- local jump_word = jump_opts.word_start
+            -- vim.keymap.set({ "n", "v" }, "gsf", function()
+            --   MiniJump2d.start({
+            --     spotter = jump_word.spotter,
+            --     allowed_lines = { cursor_before = false, cursor_after = true },
+            --   })
+            -- end, { desc = "Jump to word after" })
+            --
+            -- vim.keymap.set({ "n", "v" }, "gsb", function()
+            --   MiniJump2d.start({
+            --     spotter = jump_word.spotter,
+            --     allowed_lines = { cursor_before = true, cursor_after = false },
+            --   })
+            -- end, { desc = "Jump to word before" })
+
+            -- local jump_lines = jump_opts.line_start
+            -- vim.keymap.set({ "n", "v" }, "gs)", function()
+            --   MiniJump2d.start({
+            --     spotter = jump_lines.spotter,
+            --     allowed_lines = { cursor_before = false, cursor_after = true },
+            --   })
+            -- end, { desc = "Jump to lines after" })
+            --
+            -- vim.keymap.set({ "n", "v" }, "gs(", function()
+            --   MiniJump2d.start({
+            --     spotter = jump_lines.spotter,
+            --     allowed_lines = { cursor_before = true, cursor_after = false },
+            --   })
+            -- end, { desc = "Jump to lines before" })
+        end,
+    },
 
     {
         "utilyre/sentiment.nvim",
@@ -57,6 +162,74 @@ return {
     {
         -- Highlight, edit, and navigate code
         "nvim-treesitter/nvim-treesitter",
+        opts = {
+            -- Add languages to be installed here that you want installed for treesitter
+            ensure_installed = { "c", "cpp", "lua", "python", "rust", "typescript" },
+
+            highlight = { enable = true },
+            indent = { enable = true },
+            incremental_selection = {
+                enable = true,
+                keymaps = {
+                    init_selection    = "<c-=>",
+                    node_incremental  = "<c-=>",
+                    scope_incremental = "<c-s>",
+                    node_decremental  = "<c-_>",
+                },
+            },
+            rainbow = {
+                enable = true,
+                -- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
+                extended_mode = true,   -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+                max_file_lines = 10000, -- Do not enable for files with more than n lines, int
+                -- colors = {}, -- table of hex strings
+                -- termcolors = {} -- table of colour name strings
+            },
+            textobjects = {
+                select = {
+                    enable = true,
+                    lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+                    keymaps = {
+                        -- You can use the capture groups defined in textobjects.scm
+                        ["aa"] = "@parameter.outer",
+                        ["ia"] = "@parameter.inner",
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                        ["ac"] = "@class.outer",
+                        ["ic"] = "@class.inner",
+                    },
+                },
+                move = {
+                    enable = true,
+                    set_jumps = true, -- whether to set jumps in the jumplist
+                    goto_next_start = {
+                        ["]m"] = "@function.outer",
+                        ["]]"] = "@class.outer",
+                    },
+                    goto_next_end = {
+                        ["]M"] = "@function.outer",
+                        ["]["] = "@class.outer",
+                    },
+                    goto_previous_start = {
+                        ["[m"] = "@function.outer",
+                        ["[["] = "@class.outer",
+                    },
+                    goto_previous_end = {
+                        ["[M"] = "@function.outer",
+                        ["[]"] = "@class.outer",
+                    },
+                },
+                swap = {
+                    enable = true,
+                    swap_next = {
+                        ["<leader>sa"] = "@parameter.inner",
+                    },
+                    swap_previous = {
+                        ["<leader>sA"] = "@parameter.inner",
+                    },
+                },
+            },
+        },
         build = function()
             pcall(require("nvim-treesitter.install").update { with_sync = true })
         end,
@@ -113,23 +286,14 @@ return {
     --
     {
         "folke/which-key.nvim",
-        config = function()
-            vim.o.timeout = true
-            vim.o.timeoutlen = 400
-            require("which-key").setup({
-                -- your configuration comes here
-                -- or leave it empty to use the default settings
-                -- refer to the configuration section below
-            })
-        end,
+        event = 'VimEnter',
     },
     -- Easy jumping to symbols
     {
-        "phaazon/hop.nvim",
-        branch = "v2", -- optional but strongly recommended
+        "smoka7/hop.nvim",
         config = function()
             -- you can configure Hop the way you like here; see :h hop-config
-            require "hop".setup { keys = "etovxqpdygfblzhckisuran" }
+            require("hop").setup { keys = "etovxqpdygfblzhckisuran" }
         end
     },
 
@@ -168,9 +332,6 @@ return {
     },
 
     -- Themes
-    -- "chriskempson/base16-vim",
-    -- "navarasu/onedark.nvim" -- Theme inspired by Atom
-    -- "kaicataldo/material.vim",
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -216,45 +377,33 @@ return {
             vim.cmd.colorscheme "catppuccin"
         end,
     },
-    -- "RRethy/nvim-base16",
-
-    -- {
-    --     "kylechui/nvim-surround",
-    --     version = "*", -- Use for stability; omit to use `main` branch for the latest features
-    --     config = function()
-    --  require("nvim-surround").setup({
-    --      -- Configuration here, or leave empty to use defaults
-    --  })
-    --     end
-    -- },
 
     "rafcamlet/nvim-luapad",
 
-    -- Run blocks of code as REPL
-    { "michaelb/sniprun",      build = "bash ./install.sh" },
-
-
-    {
-        "nvim-lualine/lualine.nvim",
-        dependencies = { "nvim-tree/nvim-web-devicons", opt = true }
-    },
-
     "lukas-reineke/indent-blankline.nvim", -- Add indentation guides even on blank lines
-    -- "numToStr/Comment.nvim", -- "gc" to comment visual regions/lines
-    -- "tpope/vim-sleuth", -- Detect tabstop and shiftwidth automatically
 
     -- Fuzzy Finder (files, lsp, etc)
-    { "nvim-telescope/telescope.nvim",            branch = "0.1.x", dependencies = { "nvim-lua/plenary.nvim" } },
+    {
+        "nvim-telescope/telescope.nvim",
+        event = "VimEnter",
+        branch = "0.1.x",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            { 'nvim-telescope/telescope-ui-select.nvim' }
+        },
+    },
     "cbochs/portal.nvim",
 
     -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-    { "nvim-telescope/telescope-fzf-native.nvim", run = "make",     cond = vim.fn.executable "make" == 1 },
+    { "nvim-telescope/telescope-fzf-native.nvim", run = "make", cond = vim.fn.executable "make" == 1 },
 
-    { 'stevearc/overseer.nvim',
+    {
+        'stevearc/overseer.nvim',
         opts = {},
     },
 
-    { "zbirenbaum/copilot.lua",
+    {
+        "zbirenbaum/copilot.lua",
         config = function()
             require("copilot").setup({
                 suggestion = { enabled = false },
@@ -265,7 +414,7 @@ return {
 
     {
         "zbirenbaum/copilot-cmp",
-        config = function ()
+        config = function()
             require("copilot_cmp").setup()
         end
     },
