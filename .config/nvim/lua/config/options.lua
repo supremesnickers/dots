@@ -1,3 +1,7 @@
+-- this needs to be set early
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 vim.o.autowrite = true -- enable auto write
 -- [[ Setting options ]]
 -- See `:help vim.o`

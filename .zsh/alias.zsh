@@ -1,9 +1,9 @@
-alias lx='exa --group-directories-first'
+alias lx='eza --group-directories-first'
 unset ll
 unalias ll
-alias ll='exa --group-directories-first --long --header --git'
-alias la='exa --group-directories-first --long --header --git --all'
-alias ls='exa --group-directories-first --git'
+alias ll='eza --group-directories-first --long --header --git'
+alias la='eza --group-directories-first --long --header --git --all'
+alias ls='eza --group-directories-first --git'
 alias lg='lazygit'
 if [ "$osname" != "Darwin" ]; then
   alias te='toolbox enter'

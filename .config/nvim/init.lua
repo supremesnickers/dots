@@ -2,6 +2,10 @@
 if vim.g.vscode then
     -- VSCode extension
 else
+    -- Compile lua to bytecode if the nvim version supports it.
+    if vim.loader and vim.fn.has "nvim-0.9.1" == 1 then vim.loader.enable() end
+    require("config.options")
+
     local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
     if not vim.loop.fs_stat(lazypath) then
         vim.fn.system({
@@ -15,13 +19,7 @@ else
     end
     vim.opt.rtp:prepend(lazypath)
 
-    -- this needs to be set early
-    vim.g.mapleader = " "
-    vim.g.maplocalleader = " "
-
     require("lazy").setup("plugins", {})
-    require("config.options")
-    require('conform').setup {}
     require("neogit").setup {}
     require("ibl").setup {}
     require("gitsigns").setup()
@@ -51,24 +49,7 @@ else
     pcall(require("telescope").load_extension, "fzf")
     require("telescope").load_extension("ui-select")
     require("telescope").load_extension("projects")
-
-    -- settings up autocmds
-    -- [[ Highlight on yank ]]
-    local highlight_group = vim.api.nvim_create_augroup("YankHighlight", { clear = true })
-    vim.api.nvim_create_autocmd("TextYankPost", {
-        callback = function()
-            vim.highlight.on_yank()
-        end,
-        group = highlight_group,
-        pattern = "*",
-    })
-
-    vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        callback = function(args)
-            require("conform").format({ bufnr = args.buf })
-        end,
-    })
+    require("telescope").load_extension("scope")
 
     -- Set names for the prefixes in the which key menu
     -- should be descriptive enough
@@ -91,6 +72,7 @@ else
     require("cmake-tools").setup({})
 
     -- source the rest of the configuration
+    require("autocmds")
     require("treesitter")
     require("completion")
     require("lsp")

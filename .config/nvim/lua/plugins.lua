@@ -233,6 +233,9 @@ return {
         build = function()
             pcall(require("nvim-treesitter.install").update { with_sync = true })
         end,
+        config = function(_, opts)
+            require('nvim-treesitter.configs').setup(opts)
+        end
     },
 
     "nvim-treesitter/nvim-treesitter-context",
@@ -308,8 +311,20 @@ return {
 
     -- Git related plugins
     "tpope/vim-fugitive",
-    "TimUntersberger/neogit",
-    "sindrets/diffview.nvim",
+
+    {
+        "TimUntersberger/neogit",
+        dependencies = {
+            "nvim-lua/plenary.nvim",  -- required
+            "sindrets/diffview.nvim", -- optional - Diff integration
+
+            -- Only one of these is needed, not both.
+            "nvim-telescope/telescope.nvim", -- optional
+            "ibhagwan/fzf-lua",              -- optional
+        },
+        config = true,
+    },
+
     "tpope/vim-rhubarb",
 
     {
@@ -391,6 +406,12 @@ return {
             "nvim-lua/plenary.nvim",
             { 'nvim-telescope/telescope-ui-select.nvim' }
         },
+    },
+    {
+        "tiagovla/scope.nvim",
+        config = function()
+            require("scope").setup({})
+        end
     },
     "cbochs/portal.nvim",
 
