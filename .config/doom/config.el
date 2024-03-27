@@ -125,14 +125,11 @@ the buffer works like a pager."
 ;; associate .ui files with xml type
 (add-to-list 'auto-mode-alist '("\\.ui\\'" . xml-mode))
 
-(require 'platformio-mode)
-
 ;; Enable ccls for all c++ files, and platformio-mode only
 ;; when needed (platformio.ini present in project root).
-(add-hook 'c++-mode-hook (lambda ()
-                           (lsp-deferred)
-                           (platformio-conditionally-enable)))
-
+;; (add-hook 'c++-mode-hook (lambda ()
+;;                            (lsp-deferred)
+;;                            (platformio-conditionally-enable)))
 
 (breadcrumb-mode 1)
 
@@ -200,6 +197,7 @@ the buffer works like a pager."
   ;; home row priorities: 8 6 4 5 - - 1 2 3 7
   (setq avy-keys '(?n ?e ?o ?i ?t ?h ?s ?a)
         avy-all-windows t
+        avy-timeout-seconds 0.3
         avy-single-candidate-jump t
         avy-all-windows-alt nil))
 
@@ -287,25 +285,25 @@ With numeric prefix arg DEC, decrement the integer by DEC amount."
   (increment-integer-at-point (- (or dec 1))))
 
 ;; eshell
-;; (defun eshell/z (&optional regexp)
-;;     "Navigate to a previously visited directory in eshell, or to
-;; any directory proferred by `consult-dir'."
-;;     (let ((eshell-dirs (delete-dups
-;;                         (mapcar 'abbreviate-file-name
-;;                                 (ring-elements eshell-last-dir-ring)))))
-;;       (cond
-;;        ((and (not regexp) (featurep 'consult-dir))
-;;         (let* ((consult-dir--source-eshell `(:name "Eshell"
-;;                                              :narrow ?e
-;;                                              :category file
-;;                                              :face consult-file
-;;                                              :items ,eshell-dirs))
-;;                (consult-dir-sources (cons consult-dir--source-eshell
-;;                                           consult-dir-sources)))
-;;           (eshell/cd (substring-no-properties
-;;                       (consult-dir--pick "Switch directory: ")))))
-;;        (t (eshell/cd (if regexp (eshell-find-previous-directory regexp)
-;;                             (completing-read "cd: " eshell-dirs)))))))
+(defun eshell/z (&optional regexp)
+    "Navigate to a previously visited directory in eshell, or to
+any directory proferred by `consult-dir'."
+    (let ((eshell-dirs (delete-dups
+                        (mapcar 'abbreviate-file-name
+                                (ring-elements eshell-last-dir-ring)))))
+      (cond
+       ((and (not regexp) (featurep 'consult-dir))
+        (let* ((consult-dir--source-eshell `(:name "Eshell"
+                                             :narrow ?e
+                                             :category file
+                                             :face consult-file
+                                             :items ,eshell-dirs))
+               (consult-dir-sources (cons consult-dir--source-eshell
+                                          consult-dir-sources)))
+          (eshell/cd (substring-no-properties
+                      (consult-dir--pick "Switch directory: ")))))
+       (t (eshell/cd (if regexp (eshell-find-previous-directory regexp)
+                            (completing-read "cd: " eshell-dirs)))))))
 
 ;; MACROS
 (defalias 'align-comments-in-region

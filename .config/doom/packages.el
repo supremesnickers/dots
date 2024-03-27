@@ -6,7 +6,6 @@
 ;; use 'M-x doom/reload'.
 
 (package! minions :pin "62948a4a2951")
-(package! etrace :recipe (:host github :repo "aspiers/etrace"))
 (package! gruber-darker-theme)
 (package! dwim-shell-command)
 (package! breadcrumb :recipe (:host github :repo "joaotavora/breadcrumb"))
@@ -14,7 +13,23 @@
 ;; (package! promela-mode :recipe (:host github :repo "/g15ecb/promela-mode"))
 (package! zzz-to-char)
 ;; (package! meson-mode)
-(package! platformio-mode)
+;; (package! platformio-mode)
+
+(package! combobulate)
+(use-package combobulate
+  :preface
+  ;; You can customize Combobulate's key prefix here.
+  ;; Note that you may have to restart Emacs for this to take effect!
+  (setq combobulate-key-prefix "C-c d")
+  :hook
+  ((python-ts-mode . combobulate-mode)
+   (js-ts-mode . combobulate-mode)
+   (html-ts-mode . combobulate-mode)
+   (css-ts-mode . combobulate-mode)
+   (yaml-ts-mode . combobulate-mode)
+   (typescript-ts-mode . combobulate-mode)
+   (json-ts-mode . combobulate-mode)
+   (tsx-ts-mode . combobulate-mode)))
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)

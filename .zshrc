@@ -70,15 +70,12 @@ fi
 # Speeds up load time
 DISABLE_UPDATE_PROMPT=true
 
-# add homebrew completions
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
 source "$ZSH/oh-my-zsh.sh"
 
 # color the username and stuff
 autoload -U colors && colors
 
-# deprecated due to the amazing starship prompt
+# Deprecated due to the amazing starship prompt
 #PS1="%B%{$fg[red]%}[%{$fg[green]%}%n%{$fg[blue]%}@%{$fg[yellow]%}%M %{$fg[blue]%}%~%{$fg[red]%}]%{$fg[blue]%}$%b "
 
 PROMPT='%F{blue}%2~%f %(?.%F{14}>.%F{9}>)%f '
@@ -134,7 +131,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
-export FZF_DEFAULT_OPTS='--height 40% --border --layout=reverse'
+export FZF_DEFAULT_OPTS='--border --layout=reverse'
 export FZF_CTRL_T_OPTS="
   --walker-skip .git,node_modules,target
   --preview 'bat -n --color=always {}'
@@ -146,6 +143,9 @@ path+=("$ANDROID_HOME/platform-tools")
 
 # after adding all the variables
 export PATH
+
+# add homebrew completions
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 eval "$(zoxide init zsh)"
 # eval "$(starship init zsh)"

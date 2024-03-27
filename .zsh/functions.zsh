@@ -19,18 +19,6 @@ fe() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
-vf() {
-  local files
-
-  files=(${(f)"$(locate -Ai -0 $@ | grep -z -vE '~$' | fzf --read0 -0 -1 -m)"})
-
-  if [[ -n $files ]]
-  then
-    $EDITOR -- $files
-    print -l $files[1]
-  fi
-}
-
 dote() {
   pushd ~ &>/dev/null
   IFS=$'\n' files=($(git --git-dir=$HOME/.dotfiles --work-tree=$HOME ls-files | fzf-tmux -h --query="$1" --multi --select-1 --exit-0))
@@ -62,22 +50,6 @@ fda() {
   dir=$(fd --type d . 2> /dev/null | fzf-tmux -h --query="$1" --multi --select-1 --exit-0) && cd "$dir"
 }
 
-cf() {
-  local file
-
-  file="$(locate -i -0 $@ | grep --null -vE '~$' | fzf --read0 -0 -1)"
-
-  if [[ -n $file ]]
-  then
-    if [[ -d $file ]]
-    then
-      cd -- $file
-    else
-      cd -- ${file:h}
-    fi
-  fi
-}
-
 fif() {
   if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
   rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
@@ -93,15 +65,6 @@ dot(){
     ) | column -s¬ -t
   else
     dotfiles $*
-  fi
-}
-
-view_nix_deps () {
-  if [ "$#" -ne 1 ]; then
-    echo "Incorrect invocation."
-    echo "Example invocation: view_nix_deps neofetch"
-  else
-    nix-store --query --graph $(which $1) | /usr/bin/dot -Tpng > /tmp/graph.png && xdg-open /tmp/graph.png
   fi
 }
 
