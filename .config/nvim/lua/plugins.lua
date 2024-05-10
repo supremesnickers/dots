@@ -257,7 +257,13 @@ return {
         "p00f/nvim-ts-rainbow",
     },
 
+    'tpope/vim-sleuth',
+
     'Civitasv/cmake-tools.nvim',
+
+    'unblevable/quick-scope',
+
+    'windwp/nvim-ts-autotag',
 
     {
         "folke/trouble.nvim",

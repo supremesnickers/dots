@@ -15,13 +15,13 @@ fh() {
 }
 
 fe() {
-  IFS=$'\n' files=($(fd -H -E .DS_Store -E .git | fzf-tmux -h --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(fd -H -E .DS_Store -E .git | fzf --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
 dote() {
   pushd ~ &>/dev/null
-  IFS=$'\n' files=($(git --git-dir=$HOME/.dotfiles --work-tree=$HOME ls-files | fzf-tmux -h --query="$1" --multi --select-1 --exit-0))
+  IFS=$'\n' files=($(git --git-dir=$HOME/.dotfiles --work-tree=$HOME ls-files | fzf --query="$1" --multi --select-1 --exit-0))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
   popd &>/dev/null
 }
@@ -55,7 +55,7 @@ fif() {
   rg --files-with-matches --no-messages "$1" | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 '$1' || rg --ignore-case --pretty --context 10 '$1' {}"
 }
 
-dot(){
+dots(){
   if [[ "$#" -eq 0 ]]; then
     (cd /
      for i in $(dotfiles ls-files); do

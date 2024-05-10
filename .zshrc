@@ -60,6 +60,8 @@ elif [[ "$osname" = "Fedora Linux" ]]; then
   plugins+=(dnf)
 fi
 
+plugins+=(eza)
+
 if [[ $(uname) = "Linux" ]]; then
   source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
   source /usr/share/fzf/shell/key-bindings.zsh
@@ -75,13 +77,16 @@ source "$ZSH/oh-my-zsh.sh"
 # color the username and stuff
 autoload -U colors && colors
 
-# Deprecated due to the amazing starship prompt
-#PS1="%B%{$fg[red]%}[%{$fg[green]%}%n%{$fg[blue]%}@%{$fg[yellow]%}%M %{$fg[blue]%}%~%{$fg[red]%}]%{$fg[blue]%}$%b "
+# macOS specific
+if [ "$osname" = "Darwin" ]; then
+  launchctl setenv PATH $PATH
+  [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
+fi
 
-PROMPT='%F{blue}%2~%f %(?.%F{14}>.%F{9}>)%f '
+PROMPT='%{$(iterm2_prompt_mark)%}%F{blue}%2~%f %(?.%F{14}>.%F{9}>)%f '
 RPROMPT=''
 
-export EDITOR="hx"
+export EDITOR="nvim"
 export VISUAL=$EDITOR
 
 # Tab completion
@@ -110,12 +115,6 @@ if [[ -d "/Applications/Emacs.app/Contents/MacOS/bin" ]]; then
   # alias emacs="emacs -nw" # Always launch "emacs" in terminal mode.
 fi
 
-# macOS specific
-if [ "$osname" = "Darwin" ]; then
-  launchctl setenv PATH $PATH
-  [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
-fi
-
 [ -d "$HOME/.cargo" ] && source "$HOME/.cargo/env"
 
 # eval "$(direnv hook zsh)"
@@ -141,12 +140,15 @@ export ANDROID_HOME="$HOME/Android/Sdk"
 path+=("$ANDROID_HOME/emulator")
 path+=("$ANDROID_HOME/platform-tools")
 
+path+=("$HOME/.jenv/bin")
+
 # after adding all the variables
 export PATH
 
 # add homebrew completions
 FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
+eval "$(jenv init -)"
 eval "$(zoxide init zsh)"
 # eval "$(starship init zsh)"
 # eval "$(mcfly init zsh)"
@@ -162,5 +164,8 @@ eval "$(zoxide init zsh)"
 source $HOME/.zsh/alias.zsh
 source $HOME/.zsh/functions.zsh
 
+[[ "$TERM_PROGRAM" == "CodeEditApp_Terminal" ]] && . "/Applications/CodeEdit.app/Contents/Resources/codeedit_shell_integration.zsh"
+
 # profiling
 # zprof
+
