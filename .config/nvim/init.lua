@@ -1,6 +1,8 @@
 -- Boostrapping lazy.nvim
 if vim.g.vscode then
     -- VSCode extension
+    vim.keymap.set({ "n", "v" }, "gc", "<cmd>:VSCodeCommentary")
+    vim.keymap.set({ "n" }, "gcc", "<cmd>:VSCodeCommentaryLine")
 else
     -- Compile lua to bytecode if the nvim version supports it.
     if vim.loader and vim.fn.has "nvim-0.9.1" == 1 then vim.loader.enable() end
@@ -36,12 +38,23 @@ else
                     ["<esc>"] = actions.close,
                 },
             },
+            path_display = {
+                "filename_first",
+            },
         },
         extensions = {
             ["ui-select"] = {
                 require("telescope.themes").get_dropdown {
                     -- even more opts
                 }
+            },
+            project = {
+                theme = "dropdown",
+                on_project_selected = function(prompt_bufnr)
+                    -- Do anything you want in here. For example:
+                    print(prompt_bufnr)
+                    -- project_actions.change_working_directory(prompt_bufnr, false)
+                end
             }
         }
     }

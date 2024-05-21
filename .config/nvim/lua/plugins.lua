@@ -307,10 +307,6 @@ return {
     },
 
     {
-        "ggandor/leap.nvim"
-    },
-
-    {
         "chrisgrieser/nvim-recorder",
         config = function() require("recorder").setup({}) end,
     },
@@ -329,6 +325,7 @@ return {
             "ibhagwan/fzf-lua",              -- optional
         },
         config = true,
+        branch = "nightly",
     },
 
     "tpope/vim-rhubarb",
@@ -407,7 +404,6 @@ return {
     {
         "nvim-telescope/telescope.nvim",
         event = "VimEnter",
-        branch = "0.1.x",
         dependencies = {
             "nvim-lua/plenary.nvim",
             { 'nvim-telescope/telescope-ui-select.nvim' }

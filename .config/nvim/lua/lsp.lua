@@ -21,9 +21,9 @@ local on_attach = function(_, bufnr)
     nmap("<leader>cr", vim.lsp.buf.rename, "[R]e[n]ame")
     nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
-    nmap("gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
     nmap("gr", t_builtin.lsp_references, "[G]oto [R]eferences")
     nmap("gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
+    nmap("gd", vim.lsp.buf.definition, "[G]oto [d]efinition")
     nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
     nmap("<leader>cD", vim.lsp.buf.type_definition, "Type [D]efinition")

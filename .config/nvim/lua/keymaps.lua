@@ -10,8 +10,6 @@ local nvmap = function(tbl)
     vim.keymap.set({ "n", "v" }, tbl[1], tbl[2], tbl[3])
 end
 
-local neogit = require("neogit")
-
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 
@@ -31,7 +29,9 @@ local t_simple_dropdown = require("telescope.themes").get_dropdown {
     previewer = false,
 }
 
-nmap { "<leader>pp", require "telescope".extensions.projects.projects, { desc = "Open recent project" } }
+nmap { "<leader>:", t_builtin.commands, { desc = "Search all commands" }}
+nmap { "<leader>'", t_builtin.resume, { desc = "Resume last Telescope session" }}
+nmap { "<leader>pp", t.extensions.projects.projects, { desc = "Open recent project" } }
 nmap { "<leader>bb",
     function()
         t.extensions.scope.buffers(t_simple_dropdown)
@@ -51,7 +51,7 @@ nmap { "<leader><leader>", function()
     else
         t_builtin.find_files()
     end
-end, { desc = "[F]ind [F]iles" } }
+end, { desc = "Find in project files" } }
 
 nmap { "<leader>fd", function()
     t_builtin.find_files({
@@ -93,6 +93,7 @@ nvmap { "gs)", function()
 end, { remap = true, desc = "Hop lines forwards" } }
 
 -- Neogit
+local neogit = require("neogit")
 nmap { "<leader>gg", neogit.open, { desc = "Open Neogit" } }
 
 nmap { "<leader>hl", "<cmd>:Lazy<cr>", { desc = "Open Lazy" } }

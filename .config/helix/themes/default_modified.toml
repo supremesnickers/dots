@@ -1,0 +1,4 @@
+inherits = "default"
+
+[palette]
+base = "#121212"

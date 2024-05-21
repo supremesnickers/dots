@@ -47,6 +47,14 @@ vim.o.termguicolors = true
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
+-- for neovide GUI
+if vim.g.neovide then
+    vim.o.guifont = "JetBrainsMono Nerd Font:h12"
+    vim.g.neovide_cursor_animation_length = 0.06
+    vim.g.neovide_cursor_trail_size = 0.4
+    vim.g.neovide_remember_window_size = true
+end
+
 -- [[ Basic Keymaps ]]
 
 -- Copy to system clipboard by default
