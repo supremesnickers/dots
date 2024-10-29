@@ -1,8 +1,8 @@
 -- Boostrapping lazy.nvim
 if vim.g.vscode then
     -- VSCode extension
-    vim.keymap.set({ "n", "v" }, "gc", "<cmd>:VSCodeCommentary")
-    vim.keymap.set({ "n" }, "gcc", "<cmd>:VSCodeCommentaryLine")
+    vim.keymap.set({ "n", "v" }, "gc", "<cmd>:'<,'>VSCodeCommentary<CR>")
+    vim.keymap.set({ "n" }, "gcc", "<cmd>:VSCodeCommentary<CR>")
 else
     -- Compile lua to bytecode if the nvim version supports it.
     if vim.loader and vim.fn.has "nvim-0.9.1" == 1 then vim.loader.enable() end
@@ -67,11 +67,11 @@ else
     -- Set names for the prefixes in the which key menu
     -- should be descriptive enough
     local wk = require("which-key")
-    wk.register({
-        ["<leader>f"] = { name = "+file" },
-        ["<leader>s"] = { name = "+search" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>t"] = { name = "+toggle" },
+    wk.add({
+        { "<leader>f", group = "+file", },
+        { "<leader>s", group = "+search", },
+        { "<leader>b", group = "+buffer", },
+        { "<leader>t", group = "+toggle", },
     })
 
     -- Setup neovim lua configuration

@@ -325,7 +325,7 @@ return {
             "ibhagwan/fzf-lua",              -- optional
         },
         config = true,
-        branch = "nightly",
+        branch = "master",
     },
 
     "tpope/vim-rhubarb",
@@ -425,15 +425,15 @@ return {
         opts = {},
     },
 
-    {
-        "zbirenbaum/copilot.lua",
-        config = function()
-            require("copilot").setup({
-                suggestion = { enabled = false },
-                panel = { enabled = false },
-            })
-        end
-    },
+    -- {
+    --     "zbirenbaum/copilot.lua",
+    --     config = function()
+    --         require("copilot").setup({
+    --             suggestion = { enabled = false },
+    --             panel = { enabled = false },
+    --         })
+    --     end
+    -- },
 
     {
         "zbirenbaum/copilot-cmp",

@@ -77,3 +77,8 @@ unzip_d () {
 recurse_unzip_to_dirs () {
     find . '(' -iname '*.zip' -o -iname '*.jar' ')' -exec sh -c 'unzip -o -d "${0%.*}" "$0"' '{}' ';'
 }
+
+timezsh() {
+  shell=${1-$SHELL}
+  for i in $(seq 1 10); do /usr/bin/time $shell -i -c exit; done
+}

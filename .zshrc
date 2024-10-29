@@ -45,6 +45,11 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 # switch group using `<` and `>`
 zstyle ':fzf-tab:*' switch-group '<' '>'
+# This will check for updates every 7 days
+zstyle ':omz:update' frequency 7
+zstyle ':omz:update' verbose minimal # only few lines
+# Speeds up load time
+zstyle ':omz:update' mode auto
 
 if [[ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-fzf-history-search" ]]; then
   echo "Adding zsh-fzf-history-search to zsh plugins"
@@ -53,7 +58,9 @@ fi
 plugins+=(zsh-fzf-history-search)
 
 if [[ "$osname" = "Darwin" ]]; then
-  plugins+=(brew macos iterm2)
+  plugins+=(macos iterm2)
+
+  eval "$(/opt/homebrew/bin/brew shellenv)"
 elif [[ "$osname" = "Ubuntu Linux" ]]; then
   plugins+=(ubuntu)
 elif [[ "$osname" = "Fedora Linux" ]]; then
@@ -69,10 +76,11 @@ elif [[ "$osname" = "Darwin" ]]; then
   [ -f "/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fi
 
-# Speeds up load time
-DISABLE_UPDATE_PROMPT=true
 
 source "$ZSH/oh-my-zsh.sh"
+
+# add homebrew completions
+FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
 # color the username and stuff
 autoload -U colors && colors
@@ -83,7 +91,7 @@ if [ "$osname" = "Darwin" ]; then
   [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
 fi
 
-PROMPT='%{$(iterm2_prompt_mark)%}%F{blue}%2~%f %(?.%F{14}>.%F{9}>)%f '
+PROMPT='%F{blue}%2~%f %(?.%F{14}>.%F{9}>)%f '
 RPROMPT=''
 
 export EDITOR="nvim"
@@ -93,6 +101,9 @@ export VISUAL=$EDITOR
 zstyle ':completion:*' menu select
 zmodload zsh/complist
 _comp_options+=(globdots)		# Include hidden files.
+
+# autoload -Uz compinit
+# compinit
 
 [[ go ]] && GOPATH=$(go env GOPATH)
 
@@ -145,9 +156,6 @@ path+=("$HOME/.jenv/bin")
 # after adding all the variables
 export PATH
 
-# add homebrew completions
-FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
 eval "$(jenv init -)"
 eval "$(zoxide init zsh)"
 # eval "$(starship init zsh)"
@@ -164,8 +172,5 @@ eval "$(zoxide init zsh)"
 source $HOME/.zsh/alias.zsh
 source $HOME/.zsh/functions.zsh
 
-[[ "$TERM_PROGRAM" == "CodeEditApp_Terminal" ]] && . "/Applications/CodeEdit.app/Contents/Resources/codeedit_shell_integration.zsh"
-
 # profiling
 # zprof
-

@@ -379,7 +379,7 @@ mason_lspconfig.setup_handlers {
 }
 
 -- Turn on lsp status information
-require('fidget').setup()
+require('fidget').setup {}
 
 -- nvim-cmp setup
 local cmp = require 'cmp'

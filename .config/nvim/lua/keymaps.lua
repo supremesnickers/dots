@@ -101,6 +101,7 @@ nmap { "<leader>hm", "<cmd>:Mason<cr>", { desc = "Open Mason" } }
 
 nmap { "<leader>tc", require("barbecue.ui").toggle, { desc = "Toggle Barbecue context" } }
 nmap { "<leader>tt", "<cmd>TroubleToggle<cr>", { desc = "Toggle Trouble list" } }
+-- nmap { "<leader>ti", require()}
 
 nmap { "<leader>o", function() require("portal.builtin").jumplist.tunnel_backward() end }
 nmap { "<leader>i", function() require("portal.builtin").jumplist.tunnel_forward() end }
