@@ -1,5 +1,10 @@
 local t_builtin = require("telescope.builtin")
-require('conform').setup {}
+require('conform').setup {
+    formatters_by_ft = {
+        lua = { "stylua" },
+        cpp = { "clang-format" }
+    }
+}
 
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
@@ -60,73 +65,76 @@ local on_attach = function(_, bufnr)
     nmap("<leader>bf", vim.lsp.buf.format, "[F]ormat this [b]uffer")
 end
 
--- LSP servers and clients are able to communicate to each other what features they support.
---  By default, Neovim doesn't support everything that is in the LSP Specification.
---  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
---  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+-- -- LSP servers and clients are able to communicate to each other what features they support.
+-- --  By default, Neovim doesn't support everything that is in the LSP Specification.
+-- --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+-- --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+-- local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+--
+-- -- Enable the following language servers
+-- -- Feel free to add/remove any LSPs that you want here. They will automatically be installed
+-- local servers = {
+--     -- "rust_analyzer",
+--     -- "pyright",
+--     lua_ls = {
+--         settings = {
+--             Lua = {
+--                 runtime = {
+--                     -- Tell the language server which version of Lua you"re using (most likely LuaJIT)
+--                     version = "LuaJIT",
+--                 },
+--                 diagnostics = {
+--                     globals = { "vim" },
+--                 },
+--                 workspace = {
+--                     library = vim.api.nvim_get_runtime_file("", true),
+--                     checkThirdParty = false,
+--                 },
+--                 -- Do not send telemetry data containing a randomized but unique identifier
+--                 telemetry = { enable = false },
+--             },
+--         },
+--     },
+--     clangd = {},
+--     emmet_language_server = {},
+--     gopls = {
+--         -- root_dir = function(fname)
+--         --   local Path = require "plenary.path"
+--         --
+--         --   local absolute_cwd = Path:new(vim.loop.cwd()):absolute()
+--         --   local absolute_fname = Path:new(fname):absolute()
+--         --
+--         --   if string.find(absolute_cwd, "/cmd/", 1, true) and string.find(absolute_fname, absolute_cwd, 1, true) then
+--         --     return absolute_cwd
+--         --   end
+--         --
+--         --   return lspconfig_util.root_pattern("go.mod", ".git")(fname)
+--         -- end,
+--
+--         settings = {
+--             gopls = {
+--                 codelenses = { test = true },
+--                 hints = inlays and {
+--                     assignVariableTypes = true,
+--                     compositeLiteralFields = true,
+--                     compositeLiteralTypes = true,
+--                     constantValues = true,
+--                     functionTypeParameters = true,
+--                     parameterNames = true,
+--                     rangeVariableTypes = true,
+--                 } or nil,
+--             },
+--         },
+--
+--         flags = {
+--             debounce_text_changes = 200,
+--         },
+--     },
+-- }
 
--- Enable the following language servers
--- Feel free to add/remove any LSPs that you want here. They will automatically be installed
-local servers = {
-    -- "rust_analyzer",
-    -- "pyright",
-    lua_ls = {
-        settings = {
-            Lua = {
-                runtime = {
-                    -- Tell the language server which version of Lua you"re using (most likely LuaJIT)
-                    version = "LuaJIT",
-                },
-                diagnostics = {
-                    globals = { "vim" },
-                },
-                workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                    checkThirdParty = false,
-                },
-                -- Do not send telemetry data containing a randomized but unique identifier
-                telemetry = { enable = false },
-            },
-        },
-    },
-    clangd = {},
-    emmet_language_server = {},
-    gopls = {
-        -- root_dir = function(fname)
-        --   local Path = require "plenary.path"
-        --
-        --   local absolute_cwd = Path:new(vim.loop.cwd()):absolute()
-        --   local absolute_fname = Path:new(fname):absolute()
-        --
-        --   if string.find(absolute_cwd, "/cmd/", 1, true) and string.find(absolute_fname, absolute_cwd, 1, true) then
-        --     return absolute_cwd
-        --   end
-        --
-        --   return lspconfig_util.root_pattern("go.mod", ".git")(fname)
-        -- end,
+local servers = {}
 
-        settings = {
-            gopls = {
-                codelenses = { test = true },
-                hints = inlays and {
-                    assignVariableTypes = true,
-                    compositeLiteralFields = true,
-                    compositeLiteralTypes = true,
-                    constantValues = true,
-                    functionTypeParameters = true,
-                    parameterNames = true,
-                    rangeVariableTypes = true,
-                } or nil,
-            },
-        },
-
-        flags = {
-            debounce_text_changes = 200,
-        },
-    },
-}
 
 local ensure_installed = vim.tbl_keys(servers or {})
 vim.list_extend(ensure_installed, {
@@ -138,13 +146,13 @@ require("mason").setup()
 
 require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 -- Ensure the servers above are installed
-require("mason-lspconfig").setup {
-    handlers = {
-        function(server_name)
-            local server = servers[server_name] or {}
-            server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-            server.on_attach = on_attach
-            require('lspconfig')[server_name].setup(server)
-        end
-    }
-}
+-- require("mason-lspconfig").setup {
+--     handlers = {
+--         function(server_name)
+--             local server = servers[server_name] or {}
+--             server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+--             server.on_attach = on_attach
+--             require('lspconfig')[server_name].setup(server)
+--         end
+--     }
+-- }

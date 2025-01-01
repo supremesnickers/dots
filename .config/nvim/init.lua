@@ -87,8 +87,9 @@ else
     -- source the rest of the configuration
     require("autocmds")
     require("treesitter")
-    require("completion")
+    -- require("completion")
     require("lsp")
     require("eviline")
     require("keymaps")
+    -- require("dap-conf")
 end

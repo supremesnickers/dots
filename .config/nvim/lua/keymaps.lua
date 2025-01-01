@@ -80,6 +80,9 @@ nmap { "<leader>sG", t_builtin.git_files, { desc = "[S]earch [G]it files" } }
 nmap { "<leader>ht", t_builtin.colorscheme, { desc = "Change [t]heme" } }
 nmap { "<leader>hk", t_builtin.keymaps, { desc = "Show keymaps" } }
 
+-- mini.files
+nmap { "<leader>.", function() require("mini.files").open() end}
+
 -- hop.nvim
 local hop = require("hop")
 local directions = require("hop.hint").HintDirection
@@ -117,3 +120,37 @@ nmap { "<leader>q", vim.diagnostic.setloclist }
 
 nmap { "<leader>rl", "<cmd>:.SnipRun<cr>", { desc = "Run current line" } }
 vim.keymap.set("v", "<leader>rs", "<cmd>'<, '>SnipRun<cr>", { desc = "Run selection" })
+
+-- DAP
+nmap { '<F5>', function() require('dap').continue() end }
+nmap { '<F10>', function() require('dap').step_over() end }
+nmap { '<F11>', function() require('dap').step_into() end }
+nmap { '<F12>', function() require('dap').step_out() end }
+nmap { '<Leader>b', function() require('dap').toggle_breakpoint() end }
+nmap { '<Leader>B', function() require('dap').set_breakpoint() end }
+nmap { '<Leader>lp', function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end }
+nmap { '<Leader>dr', function() require('dap').repl.open() end }
+nmap { '<Leader>dl', function() require('dap').run_last() end }
+nvmap { '<Leader>dh', function()
+  require('dap.ui.widgets').hover()
+end}
+vim.keymap.set({'n', 'v'}, '<Leader>dp', function()
+  require('dap.ui.widgets').preview()
+end)
+vim.keymap.set('n', '<Leader>df', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.frames)
+end)
+vim.keymap.set('n', '<Leader>ds', function()
+  local widgets = require('dap.ui.widgets')
+  widgets.centered_float(widgets.scopes)
+end)
+
+nmap{ "<leader>cr", vim.lsp.buf.rename, { desc = "[R]e[n]ame" } }
+nmap{ "<leader>ca", vim.lsp.buf.code_action, { desc = "[C]ode [A]ction" } }
+
+nmap{ "gr", t_builtin.lsp_references, { desc = "[G]oto [R]eferences" } }
+nmap{ "gI", vim.lsp.buf.implementation, { desc = "[G]oto [I]mplementation" } }
+nmap{ "gd", vim.lsp.buf.definition, { desc = "[G]oto [d]efinition" } }
+nmap{ "gD", vim.lsp.buf.declaration, { desc = "[G]oto [D]eclaration" } }
+
