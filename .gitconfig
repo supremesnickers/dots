@@ -3,28 +3,50 @@
 	name = Hoang Seidel
 	signingkey = 526F0A9176CEDB8E
 
-[diff]
-        tool = difftastic
+[difftool "difftastic"]
+    # See `man git-difftool` for a description of MERGED, LOCAL and REMOTE.
+	cmd = difft "$MERGED" "$LOCAL" "abcdef1" "100644" "$REMOTE" "abcdef2" "100644"
 
 [difftool]
-        prompt = false
-
-[difftool "difftastic"]
-        cmd = difft "$LOCAL" "$REMOTE"
+    # Run the difftool immediately, don't ask 'are you sure' each time.
+	prompt = false
 
 [pager]
-        difftool = true
+    # Use a pager if the difftool output is larger than one screenful,
+    # consistent with the behaviour of `git diff`.
+	difftool = true
+
+[diff]
+    # Set difftastic as the default difftool, so we don't need to specify
+    # `-t difftastic` every time.
+	tool = difftastic
+	external = difft
+	algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
+[pager]
+	difftool = true
+
 [commit]
 	gpgsign = true
+	verbose = true
+[help]
+        autocorrect = prompt
 [core]
 	autocrlf = input
+        excludesfile = ~/.gitignore
+[rebase]
+        autoSquash = true
+        autoStash = true
+        updateRefs = true
 [tag]
 	gpgsign = true
 [gpg]
 	program = /opt/homebrew/bin/gpg
 
 [alias]
-	 smartlog = log --graph --pretty=format:'commit: %C(bold red)%h%Creset %C(red)[%H]%Creset %C(bold magenta)%d %Creset%ndate: %C(bold yellow)%cd %Creset%C(yellow)%cr%Creset%nauthor: %C(bold blue)%an%Creset %C(blue)[%ae]%Creset%n%C(cyan)%s%n%Creset'
+	smartlog = log --graph --pretty=format:'commit: %C(bold red)%h%Creset %C(red)[%H]%Creset %C(bold magenta)%d %Creset%ndate: %C(bold yellow)%cd %Creset%C(yellow)%cr%Creset%nauthor: %C(bold blue)%an%Creset %C(blue)[%ae]%Creset%n%C(cyan)%s%n%Creset'
 [column]
 	ui = auto
 [branch]
@@ -34,3 +56,13 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[init]
+	defaultBranch = main
+[push]
+        default = simple
+        autoSetupRemote = true
+        followTags = true
+[fetch]
+        prune = true
+        pruneTags = true
+        all = true
